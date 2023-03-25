@@ -1,4 +1,4 @@
-package esprit.etudiant.tn.healthcloud;
+package tn.esprit.etudiant.healthcloud;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
