@@ -1,7 +1,7 @@
-package tn.esprit.etudiant.healthcloud.controller;
+package tn.esprit.healthcloud.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.etudiant.healthcloud.entities.Stagiare;
+import tn.esprit.healthcloud.entities.Stagiare;
 import tn.esprit.etudiant.healthcloud.service.IStagiareService;
 
 import java.util.List;

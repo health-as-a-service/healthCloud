@@ -1,5 +1,4 @@
-package tn.esprit.etudiant.healthcloud.entities;
-
+package tn.esprit.healthcloud.entities;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -7,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.PrintStream;
 import java.io.Serializable;
 
 @Getter
@@ -15,12 +15,15 @@ import java.io.Serializable;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Departement implements Serializable {
+public class Medecin implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idDep;
-    private String nomDep;
-    private String descriptionDep;
-
+    private int idMedecin;
+    private String nomMedecin;
+    private String prenomMedecin;
+    private String username;
+    private String password;
+    private Boolean statut;
+    private String mail;
 
 }

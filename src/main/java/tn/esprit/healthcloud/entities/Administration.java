@@ -1,4 +1,4 @@
-package tn.esprit.etudiant.healthcloud.entities;
+package tn.esprit.healthcloud.entities;
 
 
 import lombok.*;

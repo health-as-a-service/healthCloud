@@ -1,10 +1,13 @@
-package tn.esprit.etudiant.healthcloud.entities;
+package tn.esprit.healthcloud.entities;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -12,20 +15,15 @@ import java.util.Date;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Stagiare implements Serializable {
+public class Infirmier implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idSta;
-    private String nomSta;
-    private String prenomSta;
+    private int idInf;
+    private String nomInf;
+    private String prenomInf;
     private String username;
     private String password;
     private Boolean statut;
     private String mail;
-    @Temporal(TemporalType.DATE)
-    private Date dateDebutStage;
-    @Temporal(TemporalType.DATE)
-    private Date dateFinStage;
-
-
+    private Boolean AdministrationMedicament;
 }

@@ -1,6 +1,6 @@
-package tn.esprit.etudiant.healthcloud.service;
+package tn.esprit.healthcloud.services;
 
-import tn.esprit.etudiant.healthcloud.entities.Chirurgien;
+import tn.esprit.healthcloud.entities.Chirurgien;
 
 import java.util.List;
 

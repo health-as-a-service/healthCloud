@@ -1,8 +1,9 @@
-package tn.esprit.etudiant.healthcloud.service;
+package tn.esprit.healthcloud.services;
 
 import org.springframework.stereotype.Service;
-import tn.esprit.etudiant.healthcloud.entities.Medecin;
+import tn.esprit.healthcloud.entities.Medecin;
 import tn.esprit.etudiant.healthcloud.repository.MedecinRepositrory;
+import tn.esprit.healthcloud.repositories.MedecinRepositrory;
 
 import java.util.List;
 
