@@ -2,7 +2,7 @@ package tn.esprit.healthcloud.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.entities.Medecin;
-import tn.esprit.etudiant.healthcloud.service.IMedecinService;
+import tn.esprit.healthcloud.services.IMedecinService;
 
 import java.util.List;
 
