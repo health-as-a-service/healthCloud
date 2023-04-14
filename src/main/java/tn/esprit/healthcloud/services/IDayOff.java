@@ -1,15 +1,17 @@
 package tn.esprit.healthcloud.services;
 
+import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOff;
+import tn.esprit.healthcloud.entities.User;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IDayOff {
 
-    DayOff createDayOff(DayOff dayOff);
-
     List<DayOff> getAllDayOffs();
+
+    DayOff createDayOff(DayOff dayOff, CustomUserDetails c_user);
 
     DayOff getDayOffById(int id);
 

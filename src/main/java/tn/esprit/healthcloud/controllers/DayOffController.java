@@ -1,22 +1,28 @@
 package tn.esprit.healthcloud.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOff;
-import tn.esprit.healthcloud.exceptions.DeleteForbiddenException;
+import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.exceptions.ErrorResponse;
 import tn.esprit.healthcloud.services.IDayOff;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/day-offs")
+@AllArgsConstructor
+
 public class DayOffController {
 
-    @Autowired
     private IDayOff dayOffService;
 
     @GetMapping("")
@@ -32,6 +38,7 @@ public class DayOffController {
     }
 
     @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public void updateDayOffStatus(@PathVariable int id, @RequestParam String newStatus) {
         dayOffService.updateDayOffStatus(id, newStatus);
     }
@@ -41,13 +48,13 @@ public class DayOffController {
         return dayOffService.getPendingDayOffRequests();
     }
 
-
     @PostMapping("")
     public ResponseEntity<DayOff> createDayOff(@RequestBody DayOff dayOff) {
-        DayOff createdDayOff = dayOffService.createDayOff(dayOff);
-        return new ResponseEntity<>(createdDayOff, HttpStatus.CREATED);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
+        DayOff createdDayOff = dayOffService.createDayOff(dayOff, currentUser);
+        return new ResponseEntity(createdDayOff.getId(), HttpStatus.CREATED);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDayOff(@PathVariable int id) {
         try{

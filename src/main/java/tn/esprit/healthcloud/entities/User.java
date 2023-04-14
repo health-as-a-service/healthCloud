@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,9 @@ public class User {
     private String specialite;
     @Enumerated(EnumType.STRING)
     private Job job;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<DayOff> dayOffs = new HashSet<>();
 
 
     public User(String username, String email, String encode) {
