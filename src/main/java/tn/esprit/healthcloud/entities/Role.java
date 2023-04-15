@@ -12,6 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@ToString
 public class Role implements Serializable {
 
     @Id
