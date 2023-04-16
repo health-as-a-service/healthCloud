@@ -1,6 +1,7 @@
 package tn.esprit.healthcloud.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService implements IUserService{
     UserRepository userRepository;
+    @Autowired
     PasswordEncoder encoder;
 
     @Override
