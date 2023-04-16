@@ -46,7 +46,7 @@ public class AuthController {
     @Autowired
     RoleRepository roleRepository;
 
-
+    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
@@ -95,67 +95,12 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("Aurevoir!!"));
     }
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Validated @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
+    public User registerUser(@Validated @RequestBody User user) {
+        String password = encoder.encode(user.getPassword());
+        user.setPassword(password);
+        user.setStatut(true);
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
-        }
-
-        // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "med":
-                        Role medRole = roleRepository.findByName(ERole.ROLE_MEDECIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(medRole);
-
-                        break;
-                    case "chirur":
-                        Role chirurRole = roleRepository.findByName(ERole.ROLE_CHIRURGIEN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(chirurRole);
-                        break;
-                    case "infi":
-                        Role infiRole = roleRepository.findByName(ERole.ROLE_INFIRMIER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(infiRole);
-                        break;
-                    case "stag":
-                        Role stagRole = roleRepository.findByName(ERole.ROLE_STAGIAIRE)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(stagRole);
-                        break;
-
-
-                }
-            });
-
-
-        user.setRoles(roles);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("Utilisateur creer avec succes!"));
+        return userRepository.save(user);
     }
 }
 
