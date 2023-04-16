@@ -1,4 +1,4 @@
-package tn.esprit.healthcloud.services;
+package tn.esprit.healthCloud.services;
 
 import com.sun.istack.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;

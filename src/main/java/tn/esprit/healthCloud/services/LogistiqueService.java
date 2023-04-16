@@ -1,9 +1,9 @@
-package tn.esprit.healthcloud.services;
+package tn.esprit.healthCloud.services;
 
-import tn.esprit.healthcloud.entities.Logistique;
-import tn.esprit.healthcloud.entities.Operation;
-import tn.esprit.healthcloud.exceptions.ResourceNotFoundException;
-import tn.esprit.healthcloud.repositories.LogistiqueRepository;
+import tn.esprit.healthCloud.entities.Logistique;
+import tn.esprit.healthCloud.entities.Operation;
+import tn.esprit.healthCloud.exceptions.ResourceNotFoundException;
+import tn.esprit.healthCloud.repositories.LogistiqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 // NotificationService.java
 
-package tn.esprit.healthcloud.services;
+package tn.esprit.healthCloud.services;
 
 public interface InotificationService {
 

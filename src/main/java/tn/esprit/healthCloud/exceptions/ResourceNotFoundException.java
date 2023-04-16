@@ -1,4 +1,4 @@
-package tn.esprit.healthcloud.exceptions;
+package tn.esprit.healthCloud.exceptions;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;

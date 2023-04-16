@@ -1,9 +1,9 @@
-package tn.esprit.healthcloud.services;
+package tn.esprit.healthCloud.services;
 
 
 
-import tn.esprit.healthcloud.entities.Logistique;
-import tn.esprit.healthcloud.entities.Operation;
+import tn.esprit.healthCloud.entities.Logistique;
+import tn.esprit.healthCloud.entities.Operation;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

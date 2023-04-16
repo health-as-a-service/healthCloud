@@ -1,4 +1,4 @@
-package tn.esprit.healthcloud.config;
+package tn.esprit.healthCloud.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;

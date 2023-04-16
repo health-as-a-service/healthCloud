@@ -1,4 +1,4 @@
-package tn.esprit.healthcloud.services;
+package tn.esprit.healthCloud.services;
 
 import org.springframework.stereotype.Service;
 

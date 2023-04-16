@@ -1,4 +1,4 @@
-package tn.esprit.healthcloud;
+package tn.esprit.healthCloud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
