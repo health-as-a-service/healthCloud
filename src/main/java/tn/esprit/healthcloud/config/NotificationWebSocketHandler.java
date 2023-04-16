@@ -1,4 +1,4 @@
-package esprit.etudiant.tn.healthcloud.services;
+package tn.esprit.healthcloud.services;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;

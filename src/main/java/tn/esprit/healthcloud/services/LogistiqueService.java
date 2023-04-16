@@ -13,8 +13,12 @@ import java.util.Optional;
 @Service
 public class LogistiqueService implements ILogistiqueService , Serializable {
 
+    private final LogistiqueRepository logistiqueRepository;
+
     @Autowired
-    private LogistiqueRepository logistiqueRepository;
+    public LogistiqueService(LogistiqueRepository logistiqueRepository) {
+        this.logistiqueRepository = logistiqueRepository;
+    }
 
     @Override
     public Logistique addLogistique(Logistique logistique) {
@@ -54,5 +58,10 @@ public class LogistiqueService implements ILogistiqueService , Serializable {
         } else {
             throw new ResourceNotFoundException("Logistique", "id", idLogi);
         }
+    }
+
+
+    public Logistique saveLogistique(Logistique logistique) {
+        return logistiqueRepository.save(logistique);
     }
 }

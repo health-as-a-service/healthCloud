@@ -6,7 +6,6 @@ import esprit.etudiant.tn.healthcloud.services.LogistiqueService;
 import esprit.etudiant.tn.healthcloud.services.OperationInterface;
 import esprit.etudiant.tn.healthcloud.services.OperationService;
 import esprit.etudiant.tn.healthcloud.services.ILogistiqueService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +17,20 @@ import java.util.Optional;
 @RequestMapping("/api/logistiques")
 public class LogistiqueController {
 
-    @Autowired
-    private ILogistiqueService logistiqueService;
+    private final ILogistiqueService logistiqueService;
+    private final OperationInterface operationService;
 
-    @Autowired
-    private OperationService operationService;
-
+    public LogistiqueController(ILogistiqueService logistiqueService, OperationService operationService) {
+        this.logistiqueService = logistiqueService;
+        this.operationService = operationService;
+    }
+    @CrossOrigin(origins = "http://localhost:4200/")
     @PostMapping("")
     public ResponseEntity<Logistique> addLogistique(@RequestBody Logistique logistique) {
         Logistique newLogistique = logistiqueService.addLogistique(logistique);
         return new ResponseEntity<>(newLogistique, HttpStatus.CREATED);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping("/{id}")
     public ResponseEntity<Logistique> getLogistiqueById(@PathVariable int id) {
         Logistique logistique = logistiqueService.getLogistiqueById(id);
@@ -38,31 +39,31 @@ public class LogistiqueController {
         }
         return new ResponseEntity<>(logistique, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLogistique(@PathVariable int id) {
         logistiqueService.deleteLogistique(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping("")
     public ResponseEntity<List<Logistique>> getAllLogistiques() {
         List<Logistique> logistiques = logistiqueService.getAllLogistiques();
         return new ResponseEntity<>(logistiques, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/")
     @PutMapping("")
     public ResponseEntity<Logistique> updateLogistique(@RequestBody Logistique logistique) {
         Logistique updatedLogistique = logistiqueService.updateLogistique(logistique);
         return new ResponseEntity<>(updatedLogistique, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping("/type/{typeLogi}")
     public ResponseEntity<List<Logistique>> searchLogistiqueByType(@PathVariable String typeLogi) {
         List<Logistique> logistiques = logistiqueService.searchLogistiqueByType(typeLogi);
         return new ResponseEntity<>(logistiques, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:4200/")
     @GetMapping("/operation/{idOp}")
     public ResponseEntity<List<Logistique>> getLogistiquesByOperation(@PathVariable int idOp) {
         Operation operation = operationService.getOperationById(idOp);

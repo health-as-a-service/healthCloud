@@ -1,4 +1,4 @@
-package esprit.etudiant.tn.healthcloud.services;
+package tn.esprit.healthcloud.services;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package esprit.etudiant.tn.healthcloud.services;
+package tn.esprit.healthcloud.services;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
