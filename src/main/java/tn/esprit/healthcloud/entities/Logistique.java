@@ -1,8 +1,7 @@
 // Logistique.java
 
-package esprit.etudiant.tn.healthcloud.entities;
+package tn.esprit.healthcloud.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

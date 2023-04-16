@@ -1,34 +1,23 @@
-package esprit.etudiant.tn.healthcloud.services;
+package tn.esprit.healthcloud.services;
 
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.sun.istack.ByteArrayDataSource;
-import esprit.etudiant.tn.healthcloud.entities.Logistique;
-import esprit.etudiant.tn.healthcloud.entities.Operation;
-import esprit.etudiant.tn.healthcloud.repositories.OperationRepository;
-import esprit.etudiant.tn.healthcloud.services.*;
+import tn.esprit.healthcloud.entities.Logistique;
+import tn.esprit.healthcloud.entities.Operation;
+import tn.esprit.healthcloud.repositories.OperationRepository;
+import tn.esprit.healthcloud.services.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.templatemode.TemplateMode;
-import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 
 import java.io.Serializable;
 import java.net.URLEncoder;
 import javax.imageio.ImageIO;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
