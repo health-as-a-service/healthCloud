@@ -7,4 +7,5 @@ import tn.esprit.healthcloud.entities.Laboratoire;
 @Repository
 
 public interface LaboRepository extends JpaRepository<Laboratoire,Integer> {
+
 }

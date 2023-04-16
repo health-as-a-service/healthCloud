@@ -38,7 +38,7 @@ public class PharmacieController {
     {
         return pharmacieService.getAllPharmacie();
     }
-        @PutMapping("/updatePharmacie/{idPharmacie}")
+    @PutMapping("/updatePharmacie/{idPharmacie}")
         public Pharmacie updatePharmacie(@PathVariable("idPharmacie") int id_pharmacie, @RequestBody Pharmacie pharmacie)
         {
             return pharmacieService.updatePharmacie(pharmacie,id_pharmacie);

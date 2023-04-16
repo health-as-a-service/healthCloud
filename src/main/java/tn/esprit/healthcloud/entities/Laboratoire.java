@@ -19,7 +19,5 @@ public class Laboratoire {
     private String Nom;
     private String Telephone;
     private String Email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="Laboratoire")
-    private List<TechnicienBiologist> TechnicienBiologist;
-    // private int IdConsultationDemande;
+
 }

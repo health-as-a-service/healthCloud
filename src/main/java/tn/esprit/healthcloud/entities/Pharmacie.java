@@ -21,7 +21,6 @@ public class Pharmacie {
     private String email;
     private String telephone;
     private String HeuresOuverts;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "Pharmacie")
-    private List<Pharmacien> Pharmaciens;
+
 
 }
