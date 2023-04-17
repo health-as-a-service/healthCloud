@@ -1,14 +1,14 @@
-package tn.esprit.healthCloud.services;
+package tn.esprit.healthcloud.services;
 
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.sun.istack.ByteArrayDataSource;
-import tn.esprit.healthCloud.entities.Logistique;
-import tn.esprit.healthCloud.entities.Operation;
-import tn.esprit.healthCloud.repositories.LogistiqueRepository;
-import tn.esprit.healthCloud.repositories.OperationRepository;
+import tn.esprit.healthcloud.entities.Logistique;
+import tn.esprit.healthcloud.entities.Operation;
+import tn.esprit.healthcloud.repositories.LogistiqueRepository;
+import tn.esprit.healthcloud.repositories.OperationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

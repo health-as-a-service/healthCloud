@@ -1,6 +1,6 @@
 // Operation.java
 
-package tn.esprit.healthCloud.entities;
+package tn.esprit.healthcloud.entities;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
