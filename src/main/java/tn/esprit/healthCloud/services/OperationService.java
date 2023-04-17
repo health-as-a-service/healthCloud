@@ -79,24 +79,25 @@ public class OperationService implements OperationInterface, Serializable {
         return statistics;
     }
 
-
-
-
     @Transactional
+    @Override
     public ResponseEntity<Operation> addOperationWithLogistiques(Operation operation) throws Exception {
         Set<Logistique> logistiques = operation.getLogistiques().stream()
-                .map(logistique -> logistiqueService.getLogistiqueById(logistique.getIdLogi()))
-                .peek(savedLogistique -> {
+                .map(logistique -> {
+                    Logistique savedLogistique = logistiqueService.getLogistiqueById(logistique.getIdLogi());
                     if (savedLogistique.getNombreLogi() <= 0) {
                         throw new RuntimeException("Logistique with ID " + savedLogistique.getIdLogi() + " is out of stock!");
                     }
                     savedLogistique.setNombreLogi(savedLogistique.getNombreLogi() - 1);
+                    savedLogistique.getOperations().add(operation); // add relationship to Operation entity
+                    return savedLogistique;
                 })
                 .collect(Collectors.toSet());
+
         operation.setLogistiques(logistiques);
+
         Operation savedOperation = operationRepository.save(operation);
 
-        // Generate QR code
         String hospitalLocation = "Mami Hospital, Rue El Farabi, Ariana, Tunisia";
         String encodedLocation = URLEncoder.encode(hospitalLocation, String.valueOf(StandardCharsets.UTF_8));
         String qrCodeText = String.format("Operation of type: %s, Date: %s, Room: %s, Location: %s",
@@ -108,7 +109,6 @@ public class OperationService implements OperationInterface, Serializable {
         BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeText, BarcodeFormat.QR_CODE, 350, 350);
         BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
 
-        // Convert QR code image to base64 string
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", baos);
         String qrCodeImage = Base64.getEncoder().encodeToString(baos.toByteArray());
@@ -116,7 +116,6 @@ public class OperationService implements OperationInterface, Serializable {
         String emailBody = "Operation of type : " + savedOperation.getTypeOp() + " date : "+savedOperation.getDateOp() + " the room will be : " +savedOperation.getIdChambre()
                 + " has been added. Please find the attached QR code containing operation details.";
 
-        // Add QR code image as an attachment to email
         ByteArrayDataSource qrCodeAttachment = new ByteArrayDataSource(baos.toByteArray(), "image/png");
         emailService.sendEmailqr("mohamediheb.berraies@esprit.tn", "New Operation Added", emailBody, qrCodeAttachment, "qr_code.png");
 
@@ -127,6 +126,7 @@ public class OperationService implements OperationInterface, Serializable {
 
         return new ResponseEntity<>(savedOperation, HttpStatus.CREATED);
     }
+
     @Override
     public Map<String, Double> getSuccessRatesByType() {
         List<String> typeOps = operationRepository.findDistinctTypeOp();

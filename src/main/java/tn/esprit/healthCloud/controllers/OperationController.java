@@ -22,7 +22,7 @@ public class OperationController {
     private final ILogistiqueService logistiqueService;
     private final EmailService emailService;
     @CrossOrigin(origins = "http://localhost:4200/")
-    @PostMapping(value = "/oplogi", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/oplogi")
     public ResponseEntity<Operation> addOperationWithLogistiques(@RequestBody Operation operation) throws Exception {
         return operationInterface.addOperationWithLogistiques(operation);
     }
