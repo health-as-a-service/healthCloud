@@ -85,11 +85,6 @@
             <version>3.2.14</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-websocket</artifactId>
-            <version>5.3.14</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
             <version>3.4.0</version>
@@ -131,11 +126,7 @@
             <version>1.0.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>stomp-websocket</artifactId>
-            <version>2.3.3</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.webjars</groupId>
@@ -148,6 +139,7 @@
             <artifactId>jquery</artifactId>
             <version>3.1.1-1</version>
         </dependency>
+
     </dependencies>
 
     <build>
