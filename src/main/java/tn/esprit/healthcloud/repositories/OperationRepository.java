@@ -1,9 +1,9 @@
-package tn.esprit.healthCloud.repositories;
+package tn.esprit.healthcloud.repositories;
 
-import tn.esprit.healthCloud.entities.Logistique;
+import tn.esprit.healthcloud.entities.Logistique;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import tn.esprit.healthCloud.entities.Operation;
+import tn.esprit.healthcloud.entities.Operation;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 

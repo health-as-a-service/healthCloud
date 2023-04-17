@@ -1,6 +1,6 @@
 // Operation.java
 
-package tn.esprit.healthCloud.entities;
+package tn.esprit.healthcloud.entities;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@JsonIgnoreProperties("logistiques")
+//@JsonIgnoreProperties("logistiques")
 public class Operation implements Serializable {
 
     @Id
@@ -25,7 +25,6 @@ public class Operation implements Serializable {
     private int idOp;
     private boolean success;
     private int idP;
-
     private int idChi;
 
     @Temporal(TemporalType.DATE)
@@ -35,7 +34,7 @@ public class Operation implements Serializable {
 
     private int idChambre;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
     @JoinTable(
             name = "operation_logistique",
             joinColumns = @JoinColumn(name = "idOp"),
@@ -44,6 +43,7 @@ public class Operation implements Serializable {
     @JsonProperty("logistiques")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idLogi")
     @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnoreProperties("operations")
     private Set<Logistique> logistiques = new HashSet<>();
 
     public void addLogistique(Logistique logistique) {

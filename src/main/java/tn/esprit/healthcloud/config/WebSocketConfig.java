@@ -1,4 +1,4 @@
-package tn.esprit.healthCloud.config;
+package tn.esprit.healthcloud.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

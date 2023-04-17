@@ -1,25 +1,21 @@
-package tn.esprit.healthCloud.services;
+package tn.esprit.healthcloud.services;
 
-import tn.esprit.healthCloud.entities.Logistique;
-import tn.esprit.healthCloud.entities.Operation;
-import tn.esprit.healthCloud.exceptions.ResourceNotFoundException;
-import tn.esprit.healthCloud.repositories.LogistiqueRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import tn.esprit.healthcloud.entities.Logistique;
+import tn.esprit.healthcloud.entities.Operation;
+import tn.esprit.healthcloud.exceptions.ResourceNotFoundException;
+import tn.esprit.healthcloud.repositories.LogistiqueRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
-public class LogistiqueService implements ILogistiqueService , Serializable {
+public class LogistiqueService implements ILogistiqueService, Serializable {
 
     private final LogistiqueRepository logistiqueRepository;
-
-    @Autowired
-    public LogistiqueService(LogistiqueRepository logistiqueRepository) {
-        this.logistiqueRepository = logistiqueRepository;
-    }
 
     @Override
     public Logistique addLogistique(Logistique logistique) {
@@ -54,15 +50,7 @@ public class LogistiqueService implements ILogistiqueService , Serializable {
     @Override
     public Logistique getLogistiqueById(int idLogi) {
         Optional<Logistique> optionalLogistique = logistiqueRepository.findById(idLogi);
-        if (optionalLogistique.isPresent()) {
-            return optionalLogistique.get();
-        } else {
-            throw new ResourceNotFoundException("Logistique", "id", idLogi);
-        }
+        return optionalLogistique.orElseThrow(() -> new ResourceNotFoundException("Logistique", "id", idLogi));
     }
 
-
-    public Logistique saveLogistique(Logistique logistique) {
-        return logistiqueRepository.save(logistique);
-    }
 }

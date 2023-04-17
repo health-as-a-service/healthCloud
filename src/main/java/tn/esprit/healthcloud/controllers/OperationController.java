@@ -1,15 +1,14 @@
-package tn.esprit.healthCloud.controllers;
+package tn.esprit.healthcloud.controllers;
 
-import tn.esprit.healthCloud.entities.Operation;
+import tn.esprit.healthcloud.entities.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.healthCloud.services.EmailService;
-import tn.esprit.healthCloud.services.ILogistiqueService;
-import tn.esprit.healthCloud.services.NotificationService;
-import tn.esprit.healthCloud.services.OperationInterface;
+import tn.esprit.healthcloud.services.EmailService;
+import tn.esprit.healthcloud.services.ILogistiqueService;
+import tn.esprit.healthcloud.services.NotificationService;
+import tn.esprit.healthcloud.services.OperationInterface;
 
 import java.util.*;
 
@@ -22,7 +21,7 @@ public class OperationController {
     private final ILogistiqueService logistiqueService;
     private final EmailService emailService;
     @CrossOrigin(origins = "http://localhost:4200/")
-    @PostMapping(value = "/oplogi", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/oplogi")
     public ResponseEntity<Operation> addOperationWithLogistiques(@RequestBody Operation operation) throws Exception {
         return operationInterface.addOperationWithLogistiques(operation);
     }

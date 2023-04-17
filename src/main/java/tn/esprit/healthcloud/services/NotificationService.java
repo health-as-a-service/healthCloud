@@ -1,12 +1,9 @@
-package tn.esprit.healthCloud.services;
+package tn.esprit.healthcloud.services;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationService implements InotificationService {
-
-
-
 
     @Override
     public void sendNotification(String message) {
