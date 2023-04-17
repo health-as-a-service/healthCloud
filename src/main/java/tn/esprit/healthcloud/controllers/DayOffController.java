@@ -7,7 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOff;
-import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.exceptions.ErrorResponse;
 import tn.esprit.healthcloud.services.IDayOff;
 import org.springframework.security.core.Authentication;

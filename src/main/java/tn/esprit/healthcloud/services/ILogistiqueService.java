@@ -1,7 +1,7 @@
-package tn.esprit.healthCloud.services;
+package tn.esprit.healthcloud.services;
 
-import tn.esprit.healthCloud.entities.Logistique;
-import tn.esprit.healthCloud.entities.Operation;
+import tn.esprit.healthcloud.entities.Logistique;
+import tn.esprit.healthcloud.entities.Operation;
 
 import java.util.List;
 

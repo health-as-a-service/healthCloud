@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.entities.Laboratoire;
-import tn.esprit.healthcloud.entities.Pharmacie;
 import tn.esprit.healthcloud.services.ILaboratoireService;
-import tn.esprit.healthcloud.services.LaboratoireService;
-import tn.esprit.healthcloud.services.PharmacieService;
 
 import java.util.List;
 
