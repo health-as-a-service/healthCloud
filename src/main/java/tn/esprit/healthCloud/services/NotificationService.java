@@ -1,18 +1,28 @@
 package tn.esprit.healthCloud.services;
 
+import tn.esprit.healthCloud.dto.ResponseMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NotificationService implements InotificationService {
+public class NotificationService {
+    private final SimpMessagingTemplate messagingTemplate;
 
-
-
-
-    @Override
-    public void sendNotification(String message) {
-        // Code to send notification
-        System.out.println("Notification sent: " + message);
+    @Autowired
+    public NotificationService(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
     }
 
+    public void sendGlobalNotification() {
+        ResponseMessage message = new ResponseMessage("Global Notification");
 
+        messagingTemplate.convertAndSend("/topic/global-notifications", message);
+    }
+
+    public void sendPrivateNotification(final String userId) {
+        ResponseMessage message = new ResponseMessage("Private Notification");
+
+        messagingTemplate.convertAndSendToUser(userId,"/topic/private-notifications", message);
+    }
 }

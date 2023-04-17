@@ -9,7 +9,4 @@ public class HealthCloudApplication {
     public static void main(String[] args) {
         SpringApplication.run(HealthCloudApplication.class, args);
     }
-
-
-
 }
