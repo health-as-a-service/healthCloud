@@ -7,6 +7,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.sun.istack.ByteArrayDataSource;
 import tn.esprit.healthCloud.entities.Logistique;
 import tn.esprit.healthCloud.entities.Operation;
+import tn.esprit.healthCloud.repositories.LogistiqueRepository;
 import tn.esprit.healthCloud.repositories.OperationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class OperationService implements OperationInterface, Serializable {
     private final EmailService emailService;
     private OperationRepository operationRepository;
     private final LogistiqueService logistiqueService;
-
+private LogistiqueRepository logistiqueRepository;
     @Override
     public Operation addOperation(Operation operation) {
         return operationRepository.save(operation);
@@ -38,8 +39,15 @@ public class OperationService implements OperationInterface, Serializable {
 
     @Override
     public void deleteOperation(int idOp) {
-        operationRepository.deleteById(idOp);
+        Optional<Operation> operationOptional = operationRepository.findById(idOp);
+        if (operationOptional.isPresent()) {
+            Operation operation = operationOptional.get();
+            operation.getLogistiques().forEach(logistique -> logistiqueRepository.save(logistique));
+            operation.getLogistiques().clear();
+            operationRepository.deleteById(idOp);
+        }
     }
+
 
     @Override
     public List<Operation> getAllOperations() {

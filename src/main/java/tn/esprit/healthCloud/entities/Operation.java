@@ -34,7 +34,7 @@ public class Operation implements Serializable {
 
     private int idChambre;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE )
     @JoinTable(
             name = "operation_logistique",
             joinColumns = @JoinColumn(name = "idOp"),
