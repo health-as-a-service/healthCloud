@@ -19,5 +19,7 @@ public class Laboratoire {
     private String Nom;
     private String Telephone;
     private String Email;
+    @OneToMany(mappedBy = "labo",cascade = CascadeType.ALL)
+    private List<Sample> samples;
 
 }

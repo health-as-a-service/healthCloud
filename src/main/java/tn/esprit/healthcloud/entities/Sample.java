@@ -3,10 +3,7 @@ package tn.esprit.healthcloud.entities;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Getter
@@ -20,9 +17,11 @@ public class Sample {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private int Id;
     private String description;
+    @Enumerated(EnumType.STRING)
     private testType testType;
     private String status;
     private String resultat;
     private Date testDate;
-
+    @ManyToOne
+    private Laboratoire labo;
 }
