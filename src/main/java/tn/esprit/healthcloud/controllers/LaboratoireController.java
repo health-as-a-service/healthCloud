@@ -22,7 +22,7 @@ public class LaboratoireController {
 
 
     @DeleteMapping("/delete-laboratoire/{id-laboratoire}")
-    public void deleteLaboratoire(@PathVariable("id-pharmacie") int id)
+    public void deleteLaboratoire(@PathVariable("id-laboratoire") int id)
     {
         laboratoireService.deleteLaboratoire(id);
     }

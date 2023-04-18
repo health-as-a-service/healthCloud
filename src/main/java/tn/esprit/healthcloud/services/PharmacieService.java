@@ -21,8 +21,8 @@ public class PharmacieService implements IPharmacieService{
     @Override
     public Pharmacie updatePharmacie(Pharmacie pharmacie , int idpharmacie) {
         Pharmacie phar = pharmacieRepository.findById(idpharmacie).get();
-        pharmacie=phar;
-        pharmacieRepository.save(pharmacie);
+        phar=pharmacie;
+        pharmacieRepository.save(phar);
         return pharmacie;
     }
     @Override

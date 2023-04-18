@@ -1,12 +1,10 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -22,4 +20,7 @@ public class Medicament {
     private String description;
     private long stock;
     private float prix;
+    @ManyToOne
+    @JsonBackReference
+    private Pharmacie pharmacie;
 }

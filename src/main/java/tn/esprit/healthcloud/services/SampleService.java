@@ -21,8 +21,8 @@ public class SampleService implements ISampleService {
     @Override
     public Sample updateSample(Sample sample, int id_sample) {
         Sample samp = sampleRepository.findById(id_sample).get();
-        sample=samp;
-        sampleRepository.save(sample);
+        samp=sample;
+        sampleRepository.save(samp);
         return sample;
     }
 
@@ -41,4 +41,6 @@ public class SampleService implements ISampleService {
         Sample sample = sampleRepository.findById(id).orElse(null);
         return sample;
     }
+
+
 }

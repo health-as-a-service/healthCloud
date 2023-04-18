@@ -1,19 +1,25 @@
 package tn.esprit.healthcloud.controllers;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.entities.Sample;
+import tn.esprit.healthcloud.services.EmailSampleService;
 import tn.esprit.healthcloud.services.ISampleService;
-
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/Sample")
 public class SampleController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SampleController.class);
     @Autowired
     ISampleService sampleService;
+    @Autowired
+    EmailSampleService emailSampleService;
     @PostMapping("/add-sample")
     public Sample addSample(@RequestBody Sample s) {
         Sample sample = sampleService.addSample(s);
@@ -42,4 +48,16 @@ public class SampleController {
     {
         return sampleService.updateSample(sample,id_sample);
     }
+    @PostMapping("/setSampleReady/{id}")
+    public void setSampleReady(@PathVariable("id") int id) throws MessagingException {
+        Sample sample = sampleService.getSample(id);
+        LOGGER.info("{}", id);
+        if (sample != null) {
+            sample.setStatus("ready");
+            sampleService.updateSample(sample, id);
+            String userEmail = "heni.nechi@esprit.tn";
+            emailSampleService.sendEmailSample(userEmail, "Sample ready", "Dear user,\\n\\nThe sample you submitted has been processed and is now ready for collection.");
+        }
+    }
+
 }

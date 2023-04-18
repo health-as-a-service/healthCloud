@@ -1,16 +1,22 @@
 package tn.esprit.healthcloud.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.healthcloud.entities.Medicament;
 import tn.esprit.healthcloud.repositories.MedicamentRepository;
 
+import javax.mail.MessagingException;
 import java.util.List;
 @Service
+@EnableScheduling
 public class MedicamentService implements IMedicamentService{
     @Autowired
     MedicamentRepository medicamentRepository;
+    @Autowired
+    EmailSampleService emailSampleService;
     @Override
     public Medicament addMedicament(Medicament m)
     {
@@ -20,10 +26,11 @@ public class MedicamentService implements IMedicamentService{
     @Override
     public Medicament updateMedicament(Medicament medicament , int idmedicament) {
         Medicament med = medicamentRepository.findById(idmedicament).get();
-        medicament=med;
-        medicamentRepository.save(medicament);
+        med=medicament;
+        medicamentRepository.save(med);
         return medicament;
     }
+
     @Override
     public void deleteMedicament(@PathVariable int id) {
         medicamentRepository.deleteById(id);
@@ -41,4 +48,17 @@ public class MedicamentService implements IMedicamentService{
         Medicament medicament = medicamentRepository.findById(id).orElse(null);
         return medicament;
     }
-}
+        @Scheduled(cron = "0 0 8 * * *") // Run every day at 8:00 AM
+        public void checkStockLevels() throws MessagingException {
+            List<Medicament> lowStockMedicaments = medicamentRepository.findByStockLessThan(10); // Find all medications with stock level less than 10
+            for (Medicament medicament : lowStockMedicaments) {
+                // Send an alert to the pharmacist
+                String message = String.format("Stock level of medication %s is running low. Current stock level: %d", medicament.getNom(), medicament.getStock());
+                emailSampleService.sendEmailSample("heni.nechi@esprit.tn", message,message);
+            }
+        }
+
+
+    }
+
+
