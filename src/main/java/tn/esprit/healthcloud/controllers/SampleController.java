@@ -3,9 +3,7 @@ package tn.esprit.healthcloud.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.healthcloud.entities.Pharmacie;
 import tn.esprit.healthcloud.entities.Sample;
-import tn.esprit.healthcloud.services.IPharmacieService;
 import tn.esprit.healthcloud.services.ISampleService;
 
 import java.util.List;

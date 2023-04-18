@@ -4,17 +4,11 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 
 import io.jsonwebtoken.*;
-import org.springframework.web.util.WebUtils;
-import tn.esprit.healthcloud.services.CustomUserDetailsService;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 
 
 @Component

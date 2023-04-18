@@ -1,7 +1,6 @@
 package tn.esprit.healthcloud.services;
 
 import org.springframework.web.bind.annotation.PathVariable;
-import tn.esprit.healthcloud.entities.Laboratoire;
 import tn.esprit.healthcloud.entities.Sample;
 
 import java.util.List;

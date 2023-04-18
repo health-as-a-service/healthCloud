@@ -2,7 +2,6 @@ package tn.esprit.healthcloud.services;
 
 import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOff;
-import tn.esprit.healthcloud.entities.User;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -16,20 +16,15 @@ import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.config.JwtUtils;
 
 import tn.esprit.healthcloud.config.request.LoginRequest;
-import tn.esprit.healthcloud.config.request.SignupRequest;
 import tn.esprit.healthcloud.config.response.JwtResponse;
 import tn.esprit.healthcloud.config.response.MessageResponse;
-import tn.esprit.healthcloud.entities.ERole;
-import tn.esprit.healthcloud.entities.Role;
 import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.RoleRepository;
 import tn.esprit.healthcloud.repositories.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
