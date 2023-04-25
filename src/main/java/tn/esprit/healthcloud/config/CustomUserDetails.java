@@ -24,10 +24,13 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Boolean statut;
 
+    private String firstName;
+    private String lastName;
+
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(Long id, String username, String email, String password, Boolean statut,
+    public CustomUserDetails(Long id, String username,String firstName,String lastName, String email, String password, Boolean statut,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -35,16 +38,21 @@ public class CustomUserDetails implements UserDetails {
         this.password = password;
         this.statut = statut;
         this.authorities = authorities;
+        this.firstName = firstName;
+        this.lastName = lastName;
+
     }
 
     public static CustomUserDetails build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
+        List<GrantedAuthority> authorities = user.getRole().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
         return new CustomUserDetails(
                 user.getIdUser(),
                 user.getUsername(),
+                user.getNom(),
+                user.getPrenom(),
                 user.getEmail(),
                 user.getPassword(),
                 user.getStatut(),
@@ -67,6 +75,13 @@ public class CustomUserDetails implements UserDetails {
     public String getEmail() {
         return email;
     }
+    public String getFirstname() {
+        return firstName;
+    }
+    public String getLastname() {
+        return lastName;
+    }
+
 
     @Override
     public String getPassword() {
