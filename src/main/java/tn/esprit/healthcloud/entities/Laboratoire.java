@@ -1,5 +1,6 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,5 +19,8 @@ public class Laboratoire {
     private String Nom;
     private String Telephone;
     private String Email;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "labo",cascade = CascadeType.ALL)
+    private List<Sample> samples;
 
 }

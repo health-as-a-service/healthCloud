@@ -1,5 +1,6 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,6 +21,8 @@ public class Pharmacie {
     private String email;
     private String telephone;
     private String HeuresOuverts;
-
+    @JsonManagedReference
+    @OneToMany(mappedBy = "pharmacie",cascade = CascadeType.ALL)
+    private List<Medicament> Medicaments;
 
 }

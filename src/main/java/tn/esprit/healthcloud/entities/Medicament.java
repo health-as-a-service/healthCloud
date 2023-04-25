@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -13,17 +12,15 @@ import java.util.Date;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Sample {
+public class Medicament {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
+    private String nom;
     private String description;
-    @Enumerated(EnumType.STRING)
-    private testType testType;
-    private String status;
-    private String resultat;
-    private Date testDate;
+    private long stock;
+    private float prix;
     @ManyToOne
     @JsonBackReference
-    private Laboratoire labo;
+    private Pharmacie pharmacie;
 }
