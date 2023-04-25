@@ -10,7 +10,7 @@ public interface IDayOff {
 
     List<DayOff> getAllDayOffs();
 
-    DayOff createDayOff(DayOff dayOff, CustomUserDetails c_user);
+    DayOff createDayOff(DayOff dayOff);
 
     DayOff getDayOffById(int id);
 
