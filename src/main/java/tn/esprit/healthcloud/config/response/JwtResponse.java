@@ -8,15 +8,20 @@ public class JwtResponse {
     private Long id;
     private String username;
     private String email;
-    private List<String> roles;
+    private String role;
     private Boolean statut;
-    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, Boolean statut) {
+    private String firstName;
+    private String lastName;
+
+    public JwtResponse(String accessToken, Long id, String username, String firstName, String lastName, String email, String role, Boolean statut) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.email = email;
         this.statut = statut;
-        this.roles = roles;
+        this.role = role;
+        this.firstName= firstName;
+        this.lastName= lastName;
     }
 
     public void setStatut(boolean status) {
@@ -63,11 +68,24 @@ public class JwtResponse {
         return username;
     }
 
+
+    public String getFirstName(){return firstName;};
+    public String getLastName(){return lastName;}
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 }

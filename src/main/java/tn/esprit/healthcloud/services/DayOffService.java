@@ -1,6 +1,8 @@
 package tn.esprit.healthcloud.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOffStatus;
@@ -26,9 +28,11 @@ public class DayOffService implements IDayOff {
     private final UserRepository userRepository;
 
     @Override
-    public DayOff createDayOff(DayOff dayOff, CustomUserDetails c_user) {
+    public DayOff createDayOff(DayOff dayOff) {
         dayOff.setStatus(DayOffStatus.pending);
-        User user = userRepository.findById(c_user.getId()).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
+        User user = userRepository.findById(currentUser.getId()).get();
         dayOff.setUser(user);
         return dayOffRepository.save(dayOff);
     }

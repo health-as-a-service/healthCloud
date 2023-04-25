@@ -16,20 +16,15 @@ import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.config.JwtUtils;
 
 import tn.esprit.healthcloud.config.request.LoginRequest;
-import tn.esprit.healthcloud.config.request.SignupRequest;
 import tn.esprit.healthcloud.config.response.JwtResponse;
 import tn.esprit.healthcloud.config.response.MessageResponse;
-import tn.esprit.healthcloud.entities.ERole;
-import tn.esprit.healthcloud.entities.Role;
 import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.RoleRepository;
 import tn.esprit.healthcloud.repositories.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -46,7 +41,7 @@ public class AuthController {
     @Autowired
     RoleRepository roleRepository;
 
-
+    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
@@ -67,15 +62,17 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         CustomUserDetails userDetails1 = (CustomUserDetails) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        List<String> role = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                         userDetails.getId(),
                         userDetails.getUsername(),
+                        userDetails.getFirstname(),
+                        userDetails.getLastname(),
                         userDetails.getEmail(),
-                        roles,
+                        role.get(0),
                         userDetails.getStatut()));
     }}
     @DeleteMapping("/signout")
@@ -95,67 +92,12 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("Aurevoir!!"));
     }
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Validated @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
+    public User registerUser(@Validated @RequestBody User user) {
+        String password = encoder.encode(user.getPassword());
+        user.setPassword(password);
+        user.setStatut(true);
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
-        }
-
-        // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "med":
-                        Role medRole = roleRepository.findByName(ERole.ROLE_MEDECIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(medRole);
-
-                        break;
-                    case "chirur":
-                        Role chirurRole = roleRepository.findByName(ERole.ROLE_CHIRURGIEN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(chirurRole);
-                        break;
-                    case "infi":
-                        Role infiRole = roleRepository.findByName(ERole.ROLE_INFIRMIER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(infiRole);
-                        break;
-                    case "stag":
-                        Role stagRole = roleRepository.findByName(ERole.ROLE_STAGIAIRE)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(stagRole);
-                        break;
-
-
-                }
-            });
-
-
-        user.setRoles(roles);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("Utilisateur creer avec succes!"));
+        return userRepository.save(user);
     }
 }
 

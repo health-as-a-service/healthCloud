@@ -1,5 +1,6 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,6 +22,7 @@ public class User {
     private long idUser;
     private String username;
     private String email;
+
     private String password;
     private String nom;
     private String prenom;
@@ -28,7 +30,7 @@ public class User {
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "idUser"),
             inverseJoinColumns = @JoinColumn(name = "idRole"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> role = new HashSet<>();
     private Boolean statut;
     @Temporal(TemporalType.DATE)
     private Date dateDebutStage;
@@ -38,10 +40,19 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Job job;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<DayOff> dayOffs = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<DayOff> dayOffs;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor")
+    private Set<Cours> coursesAsDoctor;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "stagiaires")
+    private Set<Cours> coursesAsStagiaires;
 
     public User(String username, String email, String encode) {
     }
+
 }
