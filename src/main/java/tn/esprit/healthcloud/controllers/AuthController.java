@@ -62,15 +62,17 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         CustomUserDetails userDetails1 = (CustomUserDetails) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        List<String> role = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                         userDetails.getId(),
                         userDetails.getUsername(),
+                        userDetails.getFirstname(),
+                        userDetails.getLastname(),
                         userDetails.getEmail(),
-                        roles,
+                        role.get(0),
                         userDetails.getStatut()));
     }}
     @DeleteMapping("/signout")
