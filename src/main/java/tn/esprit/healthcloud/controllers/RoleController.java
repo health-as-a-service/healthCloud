@@ -3,9 +3,7 @@ package tn.esprit.healthcloud.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.entities.Role;
-import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.services.IRoleService;
-import tn.esprit.healthcloud.services.IUserService;
 
 import java.util.List;
 @RestController

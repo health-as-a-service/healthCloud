@@ -1,5 +1,6 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,15 +26,5 @@ public class DayOff {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public String toString() {
-        return "DayOff{" +
-                "id=" + id +
-                ", start=" + startDate +
-                ", end=" + endDate +
-                ",  status=" + status +
-                ", user_id=" + user.getIdUser() +
-                ", reason=" + reason +
 
-                '}';
-    }
 }

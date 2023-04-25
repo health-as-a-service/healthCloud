@@ -7,7 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOff;
-import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.exceptions.ErrorResponse;
 import tn.esprit.healthcloud.services.IDayOff;
 import org.springframework.security.core.Authentication;
@@ -38,7 +37,6 @@ public class DayOffController {
     }
 
     @PutMapping("/{id}/status")
-    @PreAuthorize("hasRole('ADMIN')")
     public void updateDayOffStatus(@PathVariable int id, @RequestParam String newStatus) {
         dayOffService.updateDayOffStatus(id, newStatus);
     }
@@ -50,9 +48,7 @@ public class DayOffController {
 
     @PostMapping("")
     public ResponseEntity<DayOff> createDayOff(@RequestBody DayOff dayOff) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
-        DayOff createdDayOff = dayOffService.createDayOff(dayOff, currentUser);
+        DayOff createdDayOff = dayOffService.createDayOff(dayOff);
         return new ResponseEntity(createdDayOff.getId(), HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
@@ -68,7 +64,8 @@ public class DayOffController {
     @GetMapping("/between-dates")
     public ResponseEntity<List<DayOff>> getDayOffsBetweenDates(
             @RequestParam("start-date") String startDate,
-            @RequestParam("end-date") String endDate) {
+            @RequestParam("end-date") String endDate)
+    {
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
         List<DayOff> dayOffs = dayOffService.getDayOffsBetweenDates(start, end);
