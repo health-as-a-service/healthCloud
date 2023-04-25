@@ -1,7 +1,9 @@
 package tn.esprit.healthcloud.services;
 
+
 import tn.esprit.healthcloud.entities.DossierMedical;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IDossierMService {
@@ -9,5 +11,9 @@ public interface IDossierMService {
     DossierMedical modifierDMedical (DossierMedical dossierMedical);
     List<DossierMedical> afficherDMedicaux();
     DossierMedical afficherDMedical(int id);
+    List<DossierMedical> afficherDMedicauxArchivé();
     void supprimerDMedical(int id);
+    List<DossierMedical> retrieveSubscriptionsByDates( );
+
+
 }

@@ -7,7 +7,9 @@ import tn.esprit.healthcloud.entities.Patient;
 import tn.esprit.healthcloud.repositories.DossierMRepository;
 import tn.esprit.healthcloud.repositories.PatientRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,8 +21,30 @@ public class PatientService implements IPatientService{
 
     @Override
     public Patient ajouterPatient(Patient patient) {
-        return patientRepository.save(patient);
+    	
+    	System.out.println("patietn ffrom service"+patient);
+    	
+    	if(!patientRepository.findAll().stream().map(Patient::getChambre).collect(Collectors.toList()).contains(patient.getChambre())) {
+    		patient.setIsArchive(false);
+    		patient.setDateCreation(LocalDateTime.now());
+    		patientRepository.save(patient);
+    		return patient;
+    	}
+    	else {
+    		return null;
+    	}
+    	
     }
+     
+    
+    @Override
+    public Patient toArchive( int id) {
+    	Patient archived = patientRepository.findById(id).get();
+    	archived.setIsArchive(true);
+    	archived.setDateArchivage(LocalDateTime.now());
+        return patientRepository.save(archived);
+    }
+    
 
     @Override
     public Patient modifierPatient( Patient patient) {
@@ -29,7 +53,14 @@ public class PatientService implements IPatientService{
 
     @Override
     public List<Patient> afficherPatients() {
-        return patientRepository.findAll();
+    	return patientRepository.findAll().stream().filter(e->!e.getIsArchive())
+        		.collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<Patient> afficherPatientsArchivés() {
+    	return patientRepository.findAll().stream().filter(e->e.getIsArchive())
+        		.collect(Collectors.toList());
     }
 
     @Override
@@ -39,7 +70,7 @@ public class PatientService implements IPatientService{
 
     @Override
     public void supprimerPatient(int id) {
-        patientRepository.deleteById(id);
+            patientRepository.deleteById(id);
 
     }
 
@@ -49,4 +80,12 @@ public class PatientService implements IPatientService{
         DossierMedical dossierMedical = dossierMRepository.findById(idD).orElse(null);
         patient.setDossierMedical(dossierMedical);
         return patientRepository.save(patient);
-    }  }
+    }
+
+    public List<Patient> findByNomPAndPrenomP(String nom, String prenom) {
+        return patientRepository.findByNomPAndPrenomP(nom,prenom);
+    }
+
+}
+
+

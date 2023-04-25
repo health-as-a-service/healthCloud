@@ -3,8 +3,13 @@ package tn.esprit.healthcloud.entities;
 import lombok.*;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,10 +29,14 @@ public class DossierMedical implements Serializable {
     String testsMedicaux;
     @Temporal(TemporalType.DATE)
     Date derniereMaj;
+    
 
 
     //dossierM-Patient
     @OneToOne(mappedBy = "dossierMedical", cascade = {CascadeType.ALL})
+    @JsonIgnore
     private Patient patient;
+    
+   
 }
 

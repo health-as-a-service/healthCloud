@@ -16,5 +16,10 @@ public interface IPatientService {
     void supprimerPatient(int id);
 
     Patient assignerDossierToPatient(Integer idP, Integer idD);
+    
+    public List<Patient> afficherPatientsArchivés();
 
+    public Patient toArchive( int id);
+
+    List<Patient> findByNomPAndPrenomP(String nom, String prenom);
 }
