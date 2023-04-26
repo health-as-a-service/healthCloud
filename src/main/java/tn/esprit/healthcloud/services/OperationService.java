@@ -42,7 +42,10 @@ private LogistiqueRepository logistiqueRepository;
         Optional<Operation> operationOptional = operationRepository.findById(idOp);
         if (operationOptional.isPresent()) {
             Operation operation = operationOptional.get();
-            operation.getLogistiques().forEach(logistique -> logistiqueRepository.save(logistique));
+            operation.getLogistiques().forEach(logistique -> {
+                logistique.setNombreLogi(logistique.getNombreLogi() + 1);
+                logistiqueRepository.save(logistique);
+            });
             operation.getLogistiques().clear();
             operationRepository.deleteById(idOp);
         }
@@ -125,7 +128,7 @@ private LogistiqueRepository logistiqueRepository;
                 + " has been added. Please find the attached QR code containing operation details.";
 
         ByteArrayDataSource qrCodeAttachment = new ByteArrayDataSource(baos.toByteArray(), "image/png");
-        emailService.sendEmailqr("mohamediheb.berraies@esprit.tn", "New Operation Added", emailBody, qrCodeAttachment, "qr_code.png");
+        emailService.sendEmailqr(savedOperation.getEmailP(), "New Operation Added", emailBody, qrCodeAttachment, "qr_code.png");
 
         logistiques.forEach(logistique -> {
             String message = "The logistique with id " + logistique.getIdLogi() + " is out of stock!";
@@ -145,6 +148,7 @@ private LogistiqueRepository logistiqueRepository;
         }
         return successRatesByType;
     }
+
     @Override
     public double calculateSuccessRateByType(String typeOp) {
         List<Operation> operations = operationRepository.findByTypeOp(typeOp);
@@ -153,4 +157,6 @@ private LogistiqueRepository logistiqueRepository;
                 .count();
         return (double) successfulOperations / operations.size();
     }
+
+
 }
