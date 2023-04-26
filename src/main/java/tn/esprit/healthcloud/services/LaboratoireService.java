@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.healthcloud.entities.Laboratoire;
-import tn.esprit.healthcloud.entities.Pharmacie;
 import tn.esprit.healthcloud.repositories.LaboRepository;
-import tn.esprit.healthcloud.repositories.PharmacieRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -24,10 +23,11 @@ public class LaboratoireService implements ILaboratoireService {
     @Override
     public Laboratoire updateLaboratoire(Laboratoire laboratoire , int idlabo) {
         Laboratoire labor = LaboRepository.findById(idlabo).get();
-        laboratoire=labor;
-        LaboRepository.save(laboratoire);
+        labor=laboratoire;
+        LaboRepository.save(labor);
         return laboratoire;
     }
+
     @Override
     public void deleteLaboratoire(@PathVariable int id) {
         LaboRepository.deleteById(id);

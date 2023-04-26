@@ -16,20 +16,15 @@ import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.config.JwtUtils;
 
 import tn.esprit.healthcloud.config.request.LoginRequest;
-import tn.esprit.healthcloud.config.request.SignupRequest;
 import tn.esprit.healthcloud.config.response.JwtResponse;
 import tn.esprit.healthcloud.config.response.MessageResponse;
-import tn.esprit.healthcloud.entities.ERole;
-import tn.esprit.healthcloud.entities.Role;
 import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.RoleRepository;
 import tn.esprit.healthcloud.repositories.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -67,15 +62,17 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         CustomUserDetails userDetails1 = (CustomUserDetails) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        List<String> role = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                         userDetails.getId(),
                         userDetails.getUsername(),
+                        userDetails.getFirstname(),
+                        userDetails.getLastname(),
                         userDetails.getEmail(),
-                        roles,
+                        role.get(0),
                         userDetails.getStatut()));
     }}
     @DeleteMapping("/signout")

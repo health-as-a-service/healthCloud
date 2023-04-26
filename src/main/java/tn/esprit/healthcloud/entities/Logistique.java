@@ -2,12 +2,13 @@
 
 package tn.esprit.healthcloud.entities;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,24 +30,8 @@ public class Logistique implements Serializable {
     private int nombreLogi;
 
     @ManyToMany(mappedBy = "logistiques")
-    @JsonProperty("operations")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idOp")
-    @JsonIdentityReference(alwaysAsId = true)
-    private Set<Operation> operations = new HashSet<>();
-
-    public void addOperationsToLogistique(Logistique logistique, Set<Operation> operations) {
-        logistique.getOperations().addAll(operations);
-    }
-
-    public void addOperation(Operation operation) {
-        this.operations.add(operation);
-        operation.getLogistiques().add(this);
-    }
-
-    public void removeOperation(Operation operation) {
-        this.operations.remove(operation);
-        operation.getLogistiques().remove(this);
-    }
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Set<Operation> operations;
 
     // getters and setters
 }
