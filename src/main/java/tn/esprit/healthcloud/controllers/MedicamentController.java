@@ -45,18 +45,24 @@ public class MedicamentController {
     {
         return medicamentService.getAllMedicament();
     }
-    @PutMapping("/updatePharmacie/{idPharmacie}")
-    public Medicament updatePharmacie(@PathVariable("idPharmacie") int id_medicament, @RequestBody Medicament medicament)
+    @PutMapping("/updatePharmacie/{idMedicament}")
+    public Medicament updatePharmacie(@PathVariable("idMedicament") int id_medicament, @RequestBody Medicament medicament)
     {
         return medicamentService.updateMedicament(medicament,id_medicament);
     }
     @PutMapping("/{id}/stock")
     public ResponseEntity<?> updateStock(@PathVariable(value = "id") int id,
-                                         @RequestParam(value = "stock") long stock) {
+                                         @RequestParam(value = "quantity") long quantity) {
         Optional<Medicament> medicament = medicamentRepository.findById(id);
         if (medicament.isPresent()) {
-            medicamentRepository.updateStock(id, stock);
-            return ResponseEntity.ok().build();
+            Medicament m = medicament.get();
+            if (m.getStock() >= quantity) {
+                m.setStock(m.getStock() - quantity);
+                medicamentRepository.save(m);
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().body("Insufficient stock for the requested quantity");
+            }
         } else {
             return ResponseEntity.notFound().build();
         }

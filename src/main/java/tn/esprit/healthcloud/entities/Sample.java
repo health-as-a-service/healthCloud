@@ -25,5 +25,5 @@ public class Sample {
     private Date testDate;
     @ManyToOne
     @JsonBackReference
-    private Laboratoire labo;
+    private Consultation consultation;
 }

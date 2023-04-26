@@ -1,5 +1,6 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -70,4 +71,7 @@ public class Consultation {
     public String getComment() {
         return comment;
     }
+    @JsonManagedReference
+    @OneToMany(mappedBy = "consultation",cascade = CascadeType.ALL)
+    private List<Sample> samples;
 }
