@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOff;
 import tn.esprit.healthcloud.exceptions.ErrorResponse;
+import tn.esprit.healthcloud.repositories.DayOffRepository;
 import tn.esprit.healthcloud.services.IDayOff;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/day-offs")
@@ -23,6 +25,7 @@ import java.util.List;
 public class DayOffController {
 
     private IDayOff dayOffService;
+    private DayOffRepository dayOffRepository;
 
     @GetMapping("")
     public ResponseEntity<List<DayOff>> getAllDayOffs() {
@@ -35,10 +38,22 @@ public class DayOffController {
         DayOff dayOff = dayOffService.getDayOffById(id);
         return new ResponseEntity<>(dayOff, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "*")
     @PutMapping("/{id}/status")
     public void updateDayOffStatus(@PathVariable int id, @RequestParam String newStatus) {
         dayOffService.updateDayOffStatus(id, newStatus);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DayOff> updateDayOff(@PathVariable int id, @RequestBody DayOff dayOff) {
+        Optional<DayOff> optionalDayOff = Optional.ofNullable(dayOffRepository.findById(id));
+        if (optionalDayOff.isPresent()) {
+            dayOff.setId(id);
+            DayOff updatedDayOff = dayOffRepository.save(dayOff);
+            return ResponseEntity.ok(updatedDayOff);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/pending")
