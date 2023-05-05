@@ -32,7 +32,26 @@ public class UserService implements IUserService{
 
     @Override
     public User modifier(User user, long id) {
-        userRepository.findById(id).orElse(null);
+
+        User u =userRepository.findById(id).orElse(null);
+        if(user.getPassword().isEmpty()) {
+            user.getPassword();
+            String password = encoder.encode(user.getPassword());
+            u.setPassword(password);
+        }
+        else{
+            user.setPassword(u.getPassword());
+        }
+        user.setStatut(u.getStatut());
+        user.setRole(u.getRole());
+        user.setJob(u.getJob());
+        user.setConfirmPasswordUser(u.getConfirmPasswordUser());
+        user.setDateDebutStage(u.getDateDebutStage());
+        user.setDateFinStage(u.getDateFinStage());
+        user.setResetPasswordToken(u.getResetPasswordToken());
+
+
+
         return userRepository.save(user);
     }
 
@@ -168,7 +187,7 @@ public class UserService implements IUserService{
                     +"Dear Client \n"
                     + "This is your Username:   " + d.getUsername()+
                     "\n"
-                    + "This is your Password:   " + d.getPassword());
+                    + "This is your Password:   " + "admin");
 
             Transport.send(message);
 
