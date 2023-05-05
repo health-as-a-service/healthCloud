@@ -1,5 +1,6 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Facture {
         private String typePaiement;
 
         @OneToOne (mappedBy = "facture")
+        @JsonBackReference
         private Consultation consultations;
 
     }

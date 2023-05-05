@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.entities.Sample;
+import tn.esprit.healthcloud.entities.testType;
 import tn.esprit.healthcloud.services.EmailSampleService;
 import tn.esprit.healthcloud.services.ISampleService;
 import javax.mail.MessagingException;
@@ -48,16 +49,18 @@ public class SampleController {
     {
         return sampleService.updateSample(sample,id_sample);
     }
-    @PostMapping("/setSampleReady/{id}")
-    public void setSampleReady(@PathVariable("id") int id) throws MessagingException {
-        Sample sample = sampleService.getSample(id);
-        LOGGER.info("{}", id);
+    @PutMapping ("/setSampleReady")
+    public void setSampleReady(@RequestBody Sample sample) throws MessagingException {
+        LOGGER.info("{}", sample.getId());
         if (sample != null) {
             sample.setStatus("ready");
-            sampleService.updateSample(sample, id);
+            sampleService.updateSample(sample, sample.getId());
             String userEmail = "heni.nechi@esprit.tn";
             emailSampleService.sendEmailSample(userEmail, "Sample ready", "Dear user,\\n\\nThe sample you submitted has been processed and is now ready for collection.");
         }
     }
-
+    @GetMapping("/types")
+    public testType[] gettestType() {
+        return testType.values();
+    }
 }
