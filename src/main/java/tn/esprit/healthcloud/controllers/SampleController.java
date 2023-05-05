@@ -63,6 +63,4 @@ public class SampleController {
     public testType[] gettestType() {
         return testType.values();
     }
-
-
 }

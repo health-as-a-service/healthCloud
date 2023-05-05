@@ -10,6 +10,7 @@ import tn.esprit.healthcloud.services.IMedicamentService;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,6 @@ public class MedicamentController {
         Medicament medicament = medicamentService.addMedicament(m);
         return medicament;
     }
-
-
     @DeleteMapping("/delete-medicament/{id-medicament}")
     public void deletePharmacie(@PathVariable("id-medicament") int id)
     {
@@ -67,4 +66,34 @@ public class MedicamentController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PutMapping("/update-stock")
+    public ResponseEntity<?> updateStock(@RequestBody List<Medicament> medicaments) {
+        List<String> errors = new ArrayList<>();
+        for (Medicament mq : medicaments) {
+            Optional<Medicament> medicament = medicamentRepository.findById(mq.getId());
+            if (medicament.isPresent()) {
+                Medicament m = medicament.get();
+                if (m.getStock() >= mq.getStock()) {
+                    m.setStock(mq.getStock());
+                    medicamentRepository.save(m);
+                } else {
+                    errors.add(String.format("Insufficient stock for medication '%s' (id=%d). Available stock: %d, requested quantity: %d",
+                            m.getNom(), m.getId(), m.getStock(), mq.getStock()));
+                }
+            } else {
+                errors.add(String.format("Medication with id=%d not found", mq.getId()));
+            }
+        }
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(errors);
+        } else {
+            return ResponseEntity.ok().build();
+        }
+    }
+    @GetMapping("/getcounttypes")
+    public int getCountTypes()
+    {
+        return medicamentRepository.countByNom();
+    }
+
 }
