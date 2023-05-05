@@ -24,9 +24,11 @@ public class Operation implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idOp;
     private boolean success;
-    private int idP;
+    private String nomP;
 
-    private int idChi;
+    private String nomChi;
+
+    private String emailP;
 
     @Temporal(TemporalType.DATE)
     private Date dateOp;

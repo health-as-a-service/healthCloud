@@ -118,7 +118,7 @@ public class OperationService implements OperationInterface, Serializable {
 
         // Add QR code image as an attachment to email
         ByteArrayDataSource qrCodeAttachment = new ByteArrayDataSource(baos.toByteArray(), "image/png");
-        emailService.sendEmailqr("mohamediheb.berraies@esprit.tn", "New Operation Added", emailBody, qrCodeAttachment, "qr_code.png");
+        emailService.sendEmailqr(/*"mohamediheb.berraies@esprit.tn"*/operation.getEmailP(), "New Operation Added", emailBody, qrCodeAttachment, "qr_code.png");
 
         logistiques.forEach(logistique -> {
             String message = "The logistique with id " + logistique.getIdLogi() + " is out of stock!";
