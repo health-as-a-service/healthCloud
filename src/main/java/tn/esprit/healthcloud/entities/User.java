@@ -26,6 +26,13 @@ public class User {
     private String password;
     private String nom;
     private String prenom;
+    @Column(name = "resettoken")
+    private String resetPasswordToken;
+
+
+
+    private String confirmPasswordUser ;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "idUser"),
