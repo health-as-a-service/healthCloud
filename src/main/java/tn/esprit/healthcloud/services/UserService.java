@@ -108,7 +108,6 @@ public class UserService implements IUserService{
     }
     @Override
     public void forgotpass(String emailuser) {
-        // TODO Auto-generated method stub
         User d = userRepository.findByEmail(emailuser);
 
         final String username = "hopitalcloud@gmail.com";
@@ -154,7 +153,6 @@ public class UserService implements IUserService{
     }
     @Override
     public void addwithmail(String emailuser) {
-        // TODO Auto-generated method stub
         User d = userRepository.findByEmail(emailuser);
 
         final String username = "hopitalcloud@gmail.com";

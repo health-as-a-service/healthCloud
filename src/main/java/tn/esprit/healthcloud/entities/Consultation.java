@@ -1,5 +1,8 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,17 +54,16 @@ public class Consultation {
     private Medecin medecin; */
 
     @OneToOne
+    @JsonManagedReference
     @JoinColumn(name="facture_id", nullable=false)
     private Facture facture;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name="assurance_id", nullable=false)
     private Assurance assurance;
 
-    /*@ManyToMany(mappedBy = "consultation")
-    @JoinColumn(name = "laboratoire_id")
-    private set<Laboratoire> laboratoire;
-
+    /*
     @OneToOne
     @JoinColumn(name = "prescription_id")
 
@@ -70,4 +72,8 @@ public class Consultation {
     public String getComment() {
         return comment;
     }
+
+    @OneToMany(mappedBy = "consultation",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Sample> samples;
 }

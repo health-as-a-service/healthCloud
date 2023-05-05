@@ -1,5 +1,7 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +27,7 @@ public class Assurance {
         private String adresseAgence;
 
         @OneToMany(mappedBy = "assurance")
+        @JsonBackReference
         private List<Consultation> consultations;
 
     }
