@@ -18,6 +18,8 @@ public interface IDayOff {
 
     List<DayOff> getDayOffsBetweenDates(LocalDate startDate, LocalDate endDate);
 
+    List<DayOff> getDayOffsByUser(long id);
+
     List<DayOff> getPendingDayOffRequests();
 
     void updateDayOffStatus(int id, String newStatus);

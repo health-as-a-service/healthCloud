@@ -44,6 +44,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<DayOff> dayOffs;
 
+
+
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
     private Set<Cours> coursesAsDoctor;
@@ -51,6 +53,10 @@ public class User {
     @JsonIgnore
     @ManyToMany(mappedBy = "stagiaires")
     private Set<Cours> coursesAsStagiaires;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "stagiaire")
+    private Set<Stage> stages;
 
     public User(String username, String email, String encode) {
     }

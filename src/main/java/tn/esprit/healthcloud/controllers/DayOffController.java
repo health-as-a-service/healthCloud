@@ -33,16 +33,23 @@ public class DayOffController {
         return new ResponseEntity<>(dayOffs, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{idUser}")
+    public ResponseEntity<List<DayOff>> getDayOffsByUser(@PathVariable long idUser) {
+        List<DayOff> dayOff = dayOffService.getDayOffsByUser(idUser);
+        return new ResponseEntity<>(dayOff, HttpStatus.OK);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<DayOff> getDayOffById(@PathVariable int id) {
         DayOff dayOff = dayOffService.getDayOffById(id);
         return new ResponseEntity<>(dayOff, HttpStatus.OK);
     }
-    @CrossOrigin(origins = "*")
     @PutMapping("/{id}/status")
     public void updateDayOffStatus(@PathVariable int id, @RequestParam String newStatus) {
         dayOffService.updateDayOffStatus(id, newStatus);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<DayOff> updateDayOff(@PathVariable int id, @RequestBody DayOff dayOff) {
