@@ -63,10 +63,7 @@ public class Consultation {
     @JoinColumn(name="assurance_id", nullable=false)
     private Assurance assurance;
 
-    /*@ManyToMany(mappedBy = "consultation")
-    @JoinColumn(name = "laboratoire_id")
-    private set<Laboratoire> laboratoire;
-
+    /*
     @OneToOne
     @JoinColumn(name = "prescription_id")
 

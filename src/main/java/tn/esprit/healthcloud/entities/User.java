@@ -26,6 +26,13 @@ public class User {
     private String password;
     private String nom;
     private String prenom;
+    @Column(name = "resettoken")
+    private String resetPasswordToken;
+
+
+
+    private String confirmPasswordUser ;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "idUser"),
@@ -44,6 +51,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<DayOff> dayOffs;
 
+
+
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
     private Set<Cours> coursesAsDoctor;
@@ -51,6 +60,10 @@ public class User {
     @JsonIgnore
     @ManyToMany(mappedBy = "stagiaires")
     private Set<Cours> coursesAsStagiaires;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "stagiaire")
+    private Set<Stage> stages;
 
     public User(String username, String email, String encode) {
     }

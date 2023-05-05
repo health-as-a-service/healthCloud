@@ -1,12 +1,10 @@
 package tn.esprit.healthcloud.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.entities.Cours;
-import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.UserRepository;
 import tn.esprit.healthcloud.services.CoursService;
 
@@ -26,13 +24,13 @@ public class CoursController {
     @GetMapping("")
     public ResponseEntity<List<Cours>> getCours() {
         List<Cours> coursList = coursService.getAllCours();
-        return ResponseEntity.status(HttpStatus.FOUND).body(coursList);
+        return new ResponseEntity<>(coursList, HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity<Cours> saveCours(@RequestBody Cours cours) {
         Cours savedCours = coursService.saveCours(cours);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCours);
+        return new ResponseEntity<>(savedCours, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

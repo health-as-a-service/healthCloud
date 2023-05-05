@@ -34,6 +34,7 @@ public class DayOffService implements IDayOff {
         CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
         User user = userRepository.findById(currentUser.getId()).get();
         dayOff.setUser(user);
+
         return dayOffRepository.save(dayOff);
     }
 
@@ -49,6 +50,8 @@ public class DayOffService implements IDayOff {
         }
         return dayOff;
     }
+
+
 
     @Override
     public List<DayOff> getAllDayOffs() {
@@ -78,5 +81,12 @@ public class DayOffService implements IDayOff {
     @Override
     public List<DayOff> getDayOffsBetweenDates(LocalDate startDate, LocalDate endDate) {
         return dayOffRepository.findDayOffsBetweenDates(startDate, endDate);
+    }
+
+    @Override
+    public List<DayOff> getDayOffsByUser(long id) {
+        User user = userRepository.findById(id).orElse(null);
+        List<DayOff> dayOffs = dayOffRepository.findByUser(user);
+        return dayOffs;
     }
 }
