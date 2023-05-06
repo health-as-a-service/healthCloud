@@ -142,7 +142,7 @@ public class UserService implements IUserService{
             message.setSubject("Rest Your Password");
             message.setText("This a non reply message from HealthCloud\n "
                     +"Dear Client \n"
-                    + "Please follow the following link to reser your password: \n" + "http://localhost:4200/#/authentication/reset");
+                    + "Please follow the following link to reser your password: \n" + "http://localhost:4200/#/authentication/reset?email="+emailuser );
 
             Transport.send(message);
 

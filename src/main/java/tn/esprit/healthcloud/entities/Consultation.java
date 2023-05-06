@@ -45,11 +45,12 @@ public class Consultation {
 
     @Column(name = "suivi")
     private String suivi;
-
-   /* @ManyToOne
+    /*
+    @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Patient patient;
-
+     */
+/*
     @ManyToOne
     private Medecin medecin; */
 
@@ -63,17 +64,16 @@ public class Consultation {
     @JoinColumn(name="assurance_id", nullable=false)
     private Assurance assurance;
 
-    /*
-    @OneToOne
-    @JoinColumn(name = "prescription_id")
 
-    private Prescription prescription;*/
+
+
+   /*
+   @OneToOne
+    @JoinColumn(name = "prescription_id")
+    private Prescription prescription;
+    */
     private String comment;
     public String getComment() {
         return comment;
     }
-
-    @OneToMany(mappedBy = "consultation",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Sample> samples;
 }

@@ -25,7 +25,6 @@ public class Sample {
     private String status;
     private String resultat;
     private Date testDate;
-    @ManyToOne
-    @JsonIgnore
-    private Consultation consultation;
+
+    private String email;
 }

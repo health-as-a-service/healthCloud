@@ -6,7 +6,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.healthcloud.entities.Medicament;
+import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.MedicamentRepository;
+import tn.esprit.healthcloud.repositories.UserRepository;
 
 import javax.mail.MessagingException;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
 public class MedicamentService implements IMedicamentService{
     @Autowired
     MedicamentRepository medicamentRepository;
+    @Autowired
+    UserService userService;
     @Autowired
     EmailSampleService emailSampleService;
     @Override
@@ -48,17 +52,21 @@ public class MedicamentService implements IMedicamentService{
         Medicament medicament = medicamentRepository.findById(id).orElse(null);
         return medicament;
     }
-        @Scheduled(cron = "0 0 8 * * *") // Run every day at 8:00 AM
-        public void checkStockLevels() throws MessagingException {
-            List<Medicament> lowStockMedicaments = medicamentRepository.findByStockLessThan(10); // Find all medications with stock level less than 10
+    @Scheduled(cron = "* * 8 * * *") // Run every day at 8:00 AM
+    public void checkStockLevels() throws MessagingException {
+        List<Medicament> lowStockMedicaments = medicamentRepository.findByStockLessThan(10); // Find all medications with stock level less than 10
+        List<String> pharmacienEmails = userService.getMailsbyRoles();
+        for (String email : pharmacienEmails) {
             for (Medicament medicament : lowStockMedicaments) {
-                // Send an alert to the pharmacist
                 String message = String.format("Stock level of medication %s is running low. Current stock level: %d", medicament.getNom(), medicament.getStock());
-                emailSampleService.sendEmailSample("heni.nechi@esprit.tn", message,message);
+                System.out.println(email);
+                emailSampleService.sendEmailSample(email, message, message);
             }
         }
-
-
     }
+
+
+
+}
 
 
