@@ -1,12 +1,14 @@
 package tn.esprit.healthcloud.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.entities.DayOffStatus;
 import tn.esprit.healthcloud.entities.DayOff;
+import tn.esprit.healthcloud.entities.NotificationMessage;
 import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.exceptions.DayOffNotFoundException;
 import tn.esprit.healthcloud.exceptions.DeleteForbiddenException;
@@ -26,6 +28,9 @@ public class DayOffService implements IDayOff {
 
     DayOffRepository dayOffRepository;
     private final UserRepository userRepository;
+
+    @Autowired
+    FirebaseMessagingService firebaseMessagingService;
 
     @Override
     public DayOff createDayOff(DayOff dayOff) {
@@ -66,6 +71,13 @@ public class DayOffService implements IDayOff {
         DayOff dayOff = getDayOffById(id);
         dayOff.setStatus(DayOffStatus.valueOf(newStatus.toLowerCase()));
         dayOffRepository.save(dayOff);
+
+            NotificationMessage notif = new NotificationMessage();
+            notif.setTitle("Your dayoff request is accepted");
+            notif.setBody("Your dayoff starts from "+dayOff.getStartDate().toString()+" to "+dayOff.getEndDate().toString());
+
+            firebaseMessagingService.sendNotificationByToken(notif,dayOff.getUser().getIdUser());
+
     }
 
     @Override
