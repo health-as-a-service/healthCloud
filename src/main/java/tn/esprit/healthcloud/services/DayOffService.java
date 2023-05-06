@@ -34,14 +34,19 @@ public class DayOffService implements IDayOff {
 
     @Override
     public DayOff createDayOff(DayOff dayOff) {
-        dayOff.setStatus(DayOffStatus.pending);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
-        User user = userRepository.findById(currentUser.getId()).get();
-        dayOff.setUser(user);
-
         return dayOffRepository.save(dayOff);
     }
+
+    @Override
+    public DayOff request(DayOff dayOff) {
+            dayOff.setStatus(DayOffStatus.pending);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
+            User user = userRepository.findById(currentUser.getId()).get();
+            dayOff.setUser(user);
+        return dayOffRepository.save(dayOff);
+    }
+
 
     @Override
     public DayOff getDayOffById(int id) {
@@ -71,13 +76,14 @@ public class DayOffService implements IDayOff {
         DayOff dayOff = getDayOffById(id);
         dayOff.setStatus(DayOffStatus.valueOf(newStatus.toLowerCase()));
         dayOffRepository.save(dayOff);
-
+        System.out.println("approved".equals(newStatus)
+        );
+        if ("approved".equals(newStatus)) {
             NotificationMessage notif = new NotificationMessage();
             notif.setTitle("Your dayoff request is accepted");
-            notif.setBody("Your dayoff starts from "+dayOff.getStartDate().toString()+" to "+dayOff.getEndDate().toString());
-
-            firebaseMessagingService.sendNotificationByToken(notif,dayOff.getUser().getIdUser());
-
+            notif.setBody("Your dayoff starts from " + dayOff.getStartDate().toString() + " to " + dayOff.getEndDate().toString());
+            firebaseMessagingService.sendNotificationByToken(notif, dayOff.getUser().getIdUser());
+        }
     }
 
     @Override

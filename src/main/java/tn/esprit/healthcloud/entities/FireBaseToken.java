@@ -14,7 +14,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class FireBaseToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String deviceToken;
 }

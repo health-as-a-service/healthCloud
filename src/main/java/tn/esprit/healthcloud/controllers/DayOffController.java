@@ -73,6 +73,13 @@ public class DayOffController {
         DayOff createdDayOff = dayOffService.createDayOff(dayOff);
         return new ResponseEntity(createdDayOff.getId(), HttpStatus.CREATED);
     }
+
+    @PostMapping("/request")
+    public ResponseEntity<DayOff> request(@RequestBody DayOff dayOff) {
+        DayOff createdDayOff = dayOffService.request(dayOff);
+        return new ResponseEntity(createdDayOff.getId(), HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDayOff(@PathVariable int id) {
         try{
