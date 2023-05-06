@@ -7,6 +7,9 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.sun.istack.ByteArrayDataSource;
 import tn.esprit.healthcloud.entities.Logistique;
 import tn.esprit.healthcloud.entities.Operation;
+import tn.esprit.healthcloud.entities.User;
+import tn.esprit.healthcloud.repositories.LogistiqueRepository;
+import tn.esprit.healthcloud.repositories.UserRepository;
 import tn.esprit.healthcloud.repositories.OperationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +33,8 @@ public class OperationService implements OperationInterface, Serializable {
     private final EmailService emailService;
     private OperationRepository operationRepository;
     private final LogistiqueService logistiqueService;
-
+    private LogistiqueRepository logistiqueRepository;
+    private UserRepository userRepo;
     @Override
     public Operation addOperation(Operation operation) {
         return operationRepository.save(operation);
@@ -38,8 +42,18 @@ public class OperationService implements OperationInterface, Serializable {
 
     @Override
     public void deleteOperation(int idOp) {
-        operationRepository.deleteById(idOp);
+        Optional<Operation> operationOptional = operationRepository.findById(idOp);
+        if (operationOptional.isPresent()) {
+            Operation operation = operationOptional.get();
+            operation.getLogistiques().forEach(logistique -> {
+                logistique.setNombreLogi(logistique.getNombreLogi() + 1);
+                logistiqueRepository.save(logistique);
+            });
+            operation.getLogistiques().clear();
+            operationRepository.deleteById(idOp);
+        }
     }
+
 
     @Override
     public List<Operation> getAllOperations() {
@@ -79,24 +93,25 @@ public class OperationService implements OperationInterface, Serializable {
         return statistics;
     }
 
-
-
-
     @Transactional
+    @Override
     public ResponseEntity<Operation> addOperationWithLogistiques(Operation operation) throws Exception {
         Set<Logistique> logistiques = operation.getLogistiques().stream()
-                .map(logistique -> logistiqueService.getLogistiqueById(logistique.getIdLogi()))
-                .peek(savedLogistique -> {
+                .map(logistique -> {
+                    Logistique savedLogistique = logistiqueService.getLogistiqueById(logistique.getIdLogi());
                     if (savedLogistique.getNombreLogi() <= 0) {
                         throw new RuntimeException("Logistique with ID " + savedLogistique.getIdLogi() + " is out of stock!");
                     }
                     savedLogistique.setNombreLogi(savedLogistique.getNombreLogi() - 1);
+                    savedLogistique.getOperations().add(operation); // add relationship to Operation entity
+                    return savedLogistique;
                 })
                 .collect(Collectors.toSet());
+                
         operation.setLogistiques(logistiques);
+
         Operation savedOperation = operationRepository.save(operation);
 
-        // Generate QR code
         String hospitalLocation = "Mami Hospital, Rue El Farabi, Ariana, Tunisia";
         String encodedLocation = URLEncoder.encode(hospitalLocation, String.valueOf(StandardCharsets.UTF_8));
         String qrCodeText = String.format("Operation of type: %s, Date: %s, Room: %s, Location: %s",
@@ -108,7 +123,6 @@ public class OperationService implements OperationInterface, Serializable {
         BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeText, BarcodeFormat.QR_CODE, 350, 350);
         BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
 
-        // Convert QR code image to base64 string
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(bufferedImage, "png", baos);
         String qrCodeImage = Base64.getEncoder().encodeToString(baos.toByteArray());
@@ -116,9 +130,8 @@ public class OperationService implements OperationInterface, Serializable {
         String emailBody = "Operation of type : " + savedOperation.getTypeOp() + " date : "+savedOperation.getDateOp() + " the room will be : " +savedOperation.getIdChambre()
                 + " has been added. Please find the attached QR code containing operation details.";
 
-        // Add QR code image as an attachment to email
         ByteArrayDataSource qrCodeAttachment = new ByteArrayDataSource(baos.toByteArray(), "image/png");
-        emailService.sendEmailqr("mohamediheb.berraies@esprit.tn", "New Operation Added", emailBody, qrCodeAttachment, "qr_code.png");
+        emailService.sendEmailqr(savedOperation.getEmailP(), "New Operation Added", emailBody, qrCodeAttachment, "qr_code.png");
 
         logistiques.forEach(logistique -> {
             String message = "The logistique with id " + logistique.getIdLogi() + " is out of stock!";
@@ -127,6 +140,7 @@ public class OperationService implements OperationInterface, Serializable {
 
         return new ResponseEntity<>(savedOperation, HttpStatus.CREATED);
     }
+
     @Override
     public Map<String, Double> getSuccessRatesByType() {
         List<String> typeOps = operationRepository.findDistinctTypeOp();
@@ -137,6 +151,7 @@ public class OperationService implements OperationInterface, Serializable {
         }
         return successRatesByType;
     }
+
     @Override
     public double calculateSuccessRateByType(String typeOp) {
         List<Operation> operations = operationRepository.findByTypeOp(typeOp);
@@ -144,5 +159,10 @@ public class OperationService implements OperationInterface, Serializable {
                 .filter(Operation::isSuccess)
                 .count();
         return (double) successfulOperations / operations.size();
+    }
+
+     @Override
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
     }
 }

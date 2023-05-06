@@ -52,7 +52,6 @@ public class User {
     private Set<DayOff> dayOffs;
 
 
-
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
     private Set<Cours> coursesAsDoctor;
