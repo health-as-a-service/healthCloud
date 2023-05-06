@@ -53,6 +53,10 @@ public class UserController {
     void deblockerAdmin(@PathVariable long id ){
         iUserService.deblock(id);
     }
+    @GetMapping("/User/role")
+    List<String> getmaibyrole(){
+        return iUserService.getMailsbyRoles();
+    }
 
 
 }

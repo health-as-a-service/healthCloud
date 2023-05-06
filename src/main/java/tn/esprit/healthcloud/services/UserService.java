@@ -5,12 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tn.esprit.healthcloud.entities.Role;
 import tn.esprit.healthcloud.entities.User;
+import tn.esprit.healthcloud.repositories.RoleRepository;
 import tn.esprit.healthcloud.repositories.UserRepository;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -21,6 +24,7 @@ public class UserService implements IUserService{
     UserRepository userRepository;
     @Autowired
     PasswordEncoder encoder;
+    RoleRepository roleRepository;
 
     @Override
     public User ajouter(User user) {
@@ -198,7 +202,17 @@ public class UserService implements IUserService{
 
 
     }
-
+    @Override
+    public List<String> getMailsbyRoles(){
+        Role role = roleRepository.getById(2);
+        List<User> users=userRepository.getUsersByRole(role);
+        List<String> emails=new ArrayList<>();
+        for (User u: users
+             ) {
+            emails.add(u.getEmail());
+        }
+        return emails;
+    }
 
 
 }
