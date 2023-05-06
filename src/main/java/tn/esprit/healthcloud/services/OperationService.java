@@ -8,11 +8,13 @@ import com.sun.istack.ByteArrayDataSource;
 import tn.esprit.healthcloud.entities.Logistique;
 import tn.esprit.healthcloud.entities.Operation;
 import tn.esprit.healthcloud.repositories.OperationRepository;
+import tn.esprit.healthcloud.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
+import tn.esprit.healthcloud.entities.User;
 
 import java.io.Serializable;
 import java.net.URLEncoder;
@@ -30,6 +32,7 @@ public class OperationService implements OperationInterface, Serializable {
     private final EmailService emailService;
     private OperationRepository operationRepository;
     private final LogistiqueService logistiqueService;
+    private final UserRepository userRepo;
 
     @Override
     public Operation addOperation(Operation operation) {
@@ -144,5 +147,10 @@ public class OperationService implements OperationInterface, Serializable {
                 .filter(Operation::isSuccess)
                 .count();
         return (double) successfulOperations / operations.size();
+    }
+
+     @Override
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
     }
 }

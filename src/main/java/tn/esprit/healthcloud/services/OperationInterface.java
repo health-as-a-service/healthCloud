@@ -3,6 +3,7 @@ package tn.esprit.healthcloud.services;
 
 
 import tn.esprit.healthcloud.entities.Logistique;
+import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.entities.Operation;
 import org.springframework.http.ResponseEntity;
 
@@ -28,5 +29,7 @@ public interface OperationInterface {
 
     public Map<String, Double> getSuccessRatesByType();
     double calculateSuccessRateByType(String typeOp);
+
+    public List<User> getAllUsers();
 }
 
