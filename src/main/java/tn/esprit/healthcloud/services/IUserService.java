@@ -16,4 +16,5 @@ public interface IUserService {
     void updatePassword(String email, String newPassword,String confirmPassword);
     void forgotpass(String emailuser);
     public void addwithmail(String emailuser);
+    public List<String> getMailsbyRoles();
 }

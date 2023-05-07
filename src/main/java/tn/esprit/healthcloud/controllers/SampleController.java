@@ -55,7 +55,7 @@ public class SampleController {
         if (sample != null) {
             sample.setStatus("ready");
             sampleService.updateSample(sample, sample.getId());
-            String userEmail = "heni.nechi@esprit.tn";
+            String userEmail = sample.getEmail();
             emailSampleService.sendEmailSample(userEmail, "Sample ready", "Dear user,\\n\\nThe sample you submitted has been processed and is now ready for collection.");
         }
     }
