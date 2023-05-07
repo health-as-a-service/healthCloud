@@ -67,8 +67,17 @@ public class OperationService implements OperationInterface, Serializable {
 
     @Override
     public Operation updateOperation(Operation operation) {
+        // Fetch the existing operation from the repository
+        Operation existingOperation = operationRepository.findById(operation.getIdOp()).orElse(null);
+
+        // Copy the logistiques from the existing operation to the updated operation
+        Set<Logistique> existingLogistiques = existingOperation.getLogistiques();
+        operation.setLogistiques(existingLogistiques);
+
+        // Save the updated operation
         return operationRepository.save(operation);
     }
+
 
     @Override
     public List<Logistique> getLogistiquesByOperation(int idOp) {
