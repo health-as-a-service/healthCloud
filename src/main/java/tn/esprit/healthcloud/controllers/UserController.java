@@ -57,6 +57,9 @@ public class UserController {
     List<String> getmaibyrole(){
         return iUserService.getMailsbyRoles();
     }
-
+    @GetMapping("/User/role/{r}")
+    List<User> getUsersbyRoles(@PathVariable int r){
+        return iUserService.getUsersbyRoles(r);
+    }
 
 }

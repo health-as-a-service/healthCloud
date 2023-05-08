@@ -54,10 +54,6 @@ public class DayOffService implements IDayOff {
         if (dayOff == null) {
             throw new DayOffNotFoundException("Day off request with id " + id + " not found");
         }
-        DayOffStatus status = dayOff.getStatus();
-        if (status.equals(DayOffStatus.rejected)) {
-            throw new RuntimeException("Cannot access day off request with status " + status);
-        }
         return dayOff;
     }
 
@@ -90,7 +86,7 @@ public class DayOffService implements IDayOff {
     public void deleteDayOff(int id) {
         DayOff dayOff = getDayOffById(id);
         DayOffStatus status = dayOff.getStatus();
-        if (status.equals(DayOffStatus.approved) || status.equals(DayOffStatus.pending)) {
+        if (status.equals(DayOffStatus.approved)) {
             throw new DeleteForbiddenException("Cannot delete day off request with status " + status);
         }
         dayOffRepository.deleteById(id);
