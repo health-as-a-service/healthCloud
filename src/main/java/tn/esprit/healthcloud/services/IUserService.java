@@ -17,4 +17,5 @@ public interface IUserService {
     void forgotpass(String emailuser);
     public void addwithmail(String emailuser);
     public List<String> getMailsbyRoles();
+    public List<User> getUsersbyRoles(int r);
 }

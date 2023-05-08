@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tn.esprit.healthcloud.entities.ERole;
 import tn.esprit.healthcloud.entities.Role;
 import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.RoleRepository;
@@ -214,6 +215,12 @@ public class UserService implements IUserService{
         return emails;
     }
 
+    @Override
+    public List<User> getUsersbyRoles(int idRole){
+        Role role = roleRepository.findById(idRole).orElse(null);
+        List<User> users=userRepository.getUsersByRole(role);
+       return users;
+    }
 
 }
 
