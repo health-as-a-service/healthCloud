@@ -1,5 +1,6 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,12 +12,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Laboratoire {
+public class Medicament {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
-    private String Nom;
-    private String Telephone;
-    private String Email;
+    private String nom;
+    private String description;
+    private long stock;
+    private float prix;
 
 }
