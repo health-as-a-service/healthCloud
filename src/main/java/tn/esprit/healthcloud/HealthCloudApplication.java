@@ -4,15 +4,22 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.IOException;
 
 @SpringBootApplication
 public class HealthCloudApplication {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
         GoogleCredentials googleCredentials = GoogleCredentials
@@ -24,8 +31,29 @@ public class HealthCloudApplication {
         FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "my-app");
         return FirebaseMessaging.getInstance(app);
     }
+
     public static void main(String[] args) {
         SpringApplication.run(HealthCloudApplication.class, args);
     }
 
+   /* @Bean
+    public CommandLineRunner commandLineRunner() {
+        return args -> {
+            String sql = "INSERT INTO role (id_role, name) VALUES (?, ?)";
+            jdbcTemplate.update(sql, 1, "admin");
+            jdbcTemplate.update(sql, 2, "pharmacien");
+            jdbcTemplate.update(sql, 3, "doctor");
+            jdbcTemplate.update(sql, 4, "biologiste");
+            jdbcTemplate.update(sql, 5, "stagiare");
+        };
+    }*/
+
 }
+
+
+
+
+
+
+
+
