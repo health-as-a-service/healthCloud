@@ -26,8 +26,6 @@ public class CoursService implements ICoursService {
 
     @Override
     public Cours saveCours(Cours cours) {
-        User doctor = userRepository.findById(cours.getDoctor().getIdUser()).orElse(null) ;
-        cours.setDoctor(doctor);
         return coursRepository.save(cours);
     }
 
@@ -53,7 +51,6 @@ public class CoursService implements ICoursService {
         }
         return null;
     }
-
     @Override
     public void addStagiaireToCours(int coursId, long stagiaireId) {
         Cours cours = coursRepository.findById(coursId).orElse(null);
@@ -63,7 +60,6 @@ public class CoursService implements ICoursService {
             coursRepository.save(cours);
         }
     }
-
     @Override
     public void removeStagiaireFromCours(int coursId, long stagiaireId) {
         Cours cours = coursRepository.findById(coursId).orElse(null);
