@@ -24,7 +24,9 @@ public class Cours implements Serializable {
     Duration duration;
     String description;
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private User doctor;
+
     @ManyToMany
     @JoinTable(name = "cours_stagiaires",
             joinColumns = @JoinColumn(name = "cours_id"),
