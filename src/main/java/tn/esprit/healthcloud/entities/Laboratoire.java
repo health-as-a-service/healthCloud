@@ -13,17 +13,15 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Pharmacie {
+public class Laboratoire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private int Id;
-    private String nom;
-    private String location;
-    private String email;
-    private String telephone;
-    private String HeuresOuverts;
+    private String Nom;
+    private String Telephone;
+    private String Email;
     @JsonManagedReference
-    @OneToMany(mappedBy = "pharmacie",cascade = CascadeType.ALL)
-    private List<Medicament> Medicaments;
+    @OneToMany(mappedBy = "labo",cascade = CascadeType.ALL)
+    private List<Sample> samples;
 
 }

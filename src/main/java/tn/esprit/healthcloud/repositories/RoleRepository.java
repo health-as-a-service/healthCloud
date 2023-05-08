@@ -7,5 +7,5 @@ import tn.esprit.healthcloud.entities.Role;
 import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role,Integer> {
-    Role findByName(ERole name);
+    Optional<Role> findByName(ERole name);
 }

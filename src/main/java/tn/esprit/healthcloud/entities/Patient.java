@@ -1,11 +1,13 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -17,6 +19,7 @@ public class Patient implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idP;
+    String EmailP;
     String nomP;
     String prenomP;
     String sexe;
@@ -35,6 +38,7 @@ public class Patient implements Serializable {
     
     @OneToOne(cascade = CascadeType.ALL)
     private Image image;
+
 
 
 }

@@ -24,7 +24,6 @@ public class DossierMService implements IDossierMService {
 
     @Override
     public DossierMedical modifierDMedical(DossierMedical dossierMedical) {
-        dossierMedical.setDerniereMaj(LocalDate.now());
         return dossierMRepository.save(dossierMedical);
 
     }

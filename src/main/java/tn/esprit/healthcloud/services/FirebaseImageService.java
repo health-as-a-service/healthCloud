@@ -38,7 +38,7 @@ public class FirebaseImageService implements IImageService {
 
         try {
 
-            ClassPathResource serviceAccount = new ClassPathResource("healthcloudproject-70ea7-firebase-adminsdk-6xj2h-92f9e0e28d.json");
+            ClassPathResource serviceAccount = new ClassPathResource("patientproject-6055e-firebase-adminsdk-doe9a-dd4ab36f34.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream()))
@@ -106,12 +106,12 @@ public class FirebaseImageService implements IImageService {
     // Méthode pour télécharger une image à partir de Firebase Storage
     public String download(String fileName) throws IOException {
         String destFileName = fileName;     // to set random strinh for destination file name
-        String destFilePath = "C:/" + destFileName;                                    // to set destination file path
+        String destFilePath = "/home/skander/Documents/" + destFileName;                                    // to set destination file path
         
         ////////////////////////////////   Download  ////////////////////////////////////////////////////////////////////////
-        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("C:/Users/HP/Desktop/healthCloud/healthCloud/src/main/resources/healthcloudproject-70ea7-firebase-adminsdk-6xj2h-92f9e0e28d.json"));
+        Credentials credentials = GoogleCredentials.fromStream(new FileInputStream("/home/skander/Downloads/wetransfer_healthcloud_2023-04-18_1926/healthCloud/src/main/resources/patientproject-6055e-firebase-adminsdk-doe9a-dd4ab36f34.json"));
         com.google.cloud.storage.Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        Blob blob = storage.get(BlobId.of("healthcloudproject-70ea7.appspot.com", fileName));
+        Blob blob = storage.get(BlobId.of("patientproject-6055e.appspot.com", fileName));
         blob.downloadTo(Paths.get(destFilePath));
         return "ok";
     }

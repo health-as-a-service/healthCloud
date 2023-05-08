@@ -1,11 +1,8 @@
 package tn.esprit.healthcloud.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import tn.esprit.healthcloud.config.request.LoginRequest;
-import tn.esprit.healthcloud.config.request.ResetRequest;
 import tn.esprit.healthcloud.entities.User;
 
 import tn.esprit.healthcloud.services.IUserService;
@@ -15,18 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
     IUserService iUserService;
-    PasswordEncoder encoder;
+
 
     @PostMapping("/User")
     User addAdmin(@RequestBody User user){
-        String password = encoder.encode(user.getPassword());
-        user.setPassword(password);
-        user.setStatut(true);
-
-        iUserService.ajouter(user);
-
-        iUserService.addwithmail(user.getEmail());
-        return user;
+        return iUserService.ajouter(user);
     }
     @PutMapping("/User/{id}")
     User modifierAdmin(@RequestBody User user, @PathVariable long id){
@@ -52,14 +42,6 @@ public class UserController {
     @DeleteMapping("/User/deblock/{id}")
     void deblockerAdmin(@PathVariable long id ){
         iUserService.deblock(id);
-    }
-    @GetMapping("/User/role")
-    List<String> getmaibyrole(){
-        return iUserService.getMailsbyRoles();
-    }
-    @GetMapping("/User/role/{r}")
-    List<User> getUsersbyRoles(@PathVariable int r){
-        return iUserService.getUsersbyRoles(r);
     }
 
 }

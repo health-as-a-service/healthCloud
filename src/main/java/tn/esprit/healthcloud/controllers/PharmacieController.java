@@ -1,61 +1,46 @@
 package tn.esprit.healthcloud.controllers;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.healthcloud.entities.Pharmacie;
-import tn.esprit.healthcloud.repositories.PharmacieRepository;
+import tn.esprit.healthcloud.services.IPharmacieService;
 
-import javax.websocket.server.PathParam;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/Pharmacie")
 public class PharmacieController {
-
     @Autowired
-    private PharmacieRepository pharmacieRepository;
-
-    @PostMapping("/add-sells-count/{sellsCount}")
-    public ResponseEntity<String> setSellsCount(@PathVariable("sellsCount") String sellsCount ){
-        int sellsCountValue = Integer.parseInt(sellsCount);
-        Pharmacie pharmacie = pharmacieRepository.findById(1).get();
-        pharmacie.setSellsCount(pharmacie.getSellsCount() + sellsCountValue);
-        pharmacieRepository.save(pharmacie);
-        return ResponseEntity.ok("Sells count updated successfully");
+    IPharmacieService pharmacieService;
+    @PostMapping("/add-pharmacie")
+    public Pharmacie addPharmacie(@RequestBody Pharmacie p) {
+        Pharmacie pharmacie = pharmacieService.addPharmacie(p);
+        return pharmacie;
     }
 
 
-    @PostMapping("/add-sells-total/{sellsTotal}")
-    public ResponseEntity<String> setSellsTotal(@PathVariable("sellsTotal") String sellsTotal){
-        float sellsTotalValue = Float.parseFloat(sellsTotal);
-        Pharmacie pharmacie = pharmacieRepository.findById(1).get();
-        pharmacie.setSellsTotal(pharmacie.getSellsTotal()+sellsTotalValue);
-        pharmacieRepository.save(pharmacie);
-        return ResponseEntity.ok("Sells count updated successfully");
+    @DeleteMapping("/delete-pharmacie/{id-pharmacie}")
+    public void deletePharmacie(@PathVariable("id-pharmacie") int id)
+    {
+        pharmacieService.deletePharmacie(id);
     }
 
-    @GetMapping("/get-sells-count")
-    public float getSellsCount(){
-        Pharmacie pharmacie = pharmacieRepository.findById(1).get();
-        return pharmacie.getSellsCount();
+    @GetMapping("/getPharmacie/{id}")
+        public Pharmacie getPharmacieById(@PathVariable int id)
+        {
+            return pharmacieService.getPharmacie(id);
+        }
+    @GetMapping("/getAllPharmacie")
+    public List<Pharmacie> getAllPharmacie()
+    {
+        return pharmacieService.getAllPharmacie();
     }
-
-    @GetMapping("/get-sells-total")
-    public float getSellsTotal(){
-        Pharmacie pharmacie = pharmacieRepository.findById(1).get();
-        return pharmacie.getSellsTotal();
-    }
-
-
-
-
-
+    @PutMapping("/updatePharmacie/{idPharmacie}")
+        public Pharmacie updatePharmacie(@PathVariable("idPharmacie") int id_pharmacie, @RequestBody Pharmacie pharmacie)
+        {
+            return pharmacieService.updatePharmacie(pharmacie,id_pharmacie);
+        }
 }

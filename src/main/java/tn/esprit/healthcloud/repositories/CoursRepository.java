@@ -12,5 +12,4 @@ import java.util.List;
 public interface CoursRepository extends JpaRepository<Cours, Integer> {
     List<Cours> findByDoctor(User doctor);
     List<Cours> findByStagiaires(User stagiaire);
-
 }

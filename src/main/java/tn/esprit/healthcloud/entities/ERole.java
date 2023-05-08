@@ -2,9 +2,9 @@ package tn.esprit.healthcloud.entities;
 
 public enum ERole {
     doctor,
-    stagiare,
+    ROLE_STAGIAIRE,
     admin,
-    pharmacien,
-    biologiste
+    ROLE_CHIRURGIEN,
+    ROLE_INFIRMIER
 }
 
