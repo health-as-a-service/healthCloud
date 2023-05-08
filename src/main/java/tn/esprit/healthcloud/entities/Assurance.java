@@ -1,19 +1,21 @@
 package tn.esprit.healthcloud.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Assurance {
+
+public class Assurance implements Serializable {
 
 
         @Id
@@ -26,8 +28,8 @@ public class Assurance {
 
         private String adresseAgence;
 
-        @OneToMany(mappedBy = "assurance")
-        @JsonBackReference
+       @OneToMany(mappedBy = "assurance",cascade = CascadeType.ALL)
+        @JsonIgnoreProperties
         private List<Consultation> consultations;
 
     }

@@ -1,30 +1,32 @@
 package tn.esprit.healthcloud.services;
-
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import tn.esprit.healthcloud.entities.Assurance;
 import tn.esprit.healthcloud.entities.Consultation;
-import tn.esprit.healthcloud.entities.Facture;
-import tn.esprit.healthcloud.repositories.ConsultationRepository;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import tn.esprit.healthcloud.repositories.AssuranceRepository;
+import tn.esprit.healthcloud.repositories.ConsultationRepository;
+import tn.esprit.healthcloud.repositories.FactureRepository;
+
+import javax.mail.MessagingException;
+
+
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Service
 public class ConsultationService implements IConsultationService {
 
     private final ConsultationRepository consultationRepository;
-
-    public ConsultationService(ConsultationRepository consultationRepository, JavaMailSender javaMailSender) {
+    private final AssuranceRepository  assuranceRepository;
+    private final FactureRepository factureRepository;
+    public ConsultationService(ConsultationRepository consultationRepository, AssuranceRepository assuranceRepository, FactureRepository factureRepository) {
         this.consultationRepository = consultationRepository;
-        this.javaMailSender = javaMailSender;
+        this.assuranceRepository = assuranceRepository;
+        this.factureRepository = factureRepository;
     }
 
 
@@ -43,92 +45,62 @@ public class ConsultationService implements IConsultationService {
     @Override
     public List<Consultation> getAllConsultations() {
         List<Consultation> consultations = consultationRepository.findAll();
-        return consultations.stream().map(consultation -> consultation).collect(Collectors.toList());
+        return consultations;
     }
 
-    @Override
-    public void addAntecedentToConsultation(Long consultationId, String antecedent) {
-        Consultation consultation = consultationRepository.findById(consultationId).get();
-        consultation.getAntecedentsMedicaux().add(antecedent);
-        consultationRepository.save(consultation);
-    }
 
-    @Override
-    public void addFactureToConsultation(Long consultationId, Facture facture) {
-        Consultation consultation = consultationRepository.findById(consultationId).get();
-        consultation.setFacture(facture);
-        consultationRepository.save(consultation);
-    }
-
-    @Override
-    public void addAssuranceToConsultation(Long consultationId, Assurance assurance) {
-        Consultation consultation = consultationRepository.findById(consultationId).get();
-        consultation.setAssurance(assurance);
-        consultationRepository.save(consultation);
-    }
-
-    @Override
-    public void sendReminderEmails() {
-        List<Consultation> consultations = consultationRepository.findAll();
-        for (Consultation consultation : consultations) {
-            LocalDateTime consultationDateTime = consultation.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().with(consultation.getTime());
-            LocalDateTime twoDaysBefore = LocalDateTime.now().plusDays(2);
-            if (consultationDateTime.isBefore(twoDaysBefore)) {
-                String recipientEmail = "baleki3539@snowlash.com"; /*consultation.getPatient().getEmail();*/
-                String subject = "Reminder: Consultation on " + consultation.getDate() + " at " + consultation.getTime();
-                String body = "Dear " + "consultation.getPatient().getFirstName()" + ",\n\nThis is a reminder that you have a consultation scheduled with Dr. "
-                        + "consultation.getDoctor().getLastName()" + " on " + consultation.getDate() + " at " + consultation.getTime()
-                        + ". Please arrive on time and bring any necessary documents.\n\nBest regards,\nMedical Clinic";
-                sendEmail(recipientEmail, subject, body);
-            }
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id parameter cannot be null");
         }
-    }
-    private final JavaMailSender javaMailSender;
-    private void sendEmail(String recipientEmail, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(recipientEmail);
-        message.setSubject(subject);
-        message.setText(body);
-        javaMailSender.send(message);
+        consultationRepository.deleteById(id);
     }
 
+    public Consultation updateConsultation(Long id, Consultation consultation) {
+        Optional<Consultation> existingConsultation = consultationRepository.findById(id);
 
-    @Override
-    public List<Consultation> getConsultationsByDateRange(Date startDate, Date endDate) {
-        List<Consultation> consultations = consultationRepository.findByDateBetween(startDate, endDate);
-        return consultations.stream()
-                .map(c -> c)
-                .collect(Collectors.toList());
-    }
+        if (existingConsultation.isPresent()) {
+            Consultation updatedConsultation = existingConsultation.get();
+            updatedConsultation.setDate(consultation.getDate());
+            updatedConsultation.setTime(consultation.getTime());
+            updatedConsultation.setStatusRDV(consultation.getStatusRDV());
+            updatedConsultation.setSuivi(consultation.getSuivi());
 
-    @Override
-    public void exportConsultationData(String format) {
-        List<Consultation> consultations = consultationRepository.findAll();
-        if (format.equalsIgnoreCase("csv")) {
-            try {
-                FileWriter writer = new FileWriter("consultations.csv");
-                writer.append("Doctor, Patient, Date, Time, Comment\n");
-                for (Consultation consultation : consultations) {
-                    /* writer.append(consultation.getDoctor().getLastName() + ", ");
-                    writer.append(consultation.getPatient().getLastName() + ", ");*/
-                    writer.append(consultation.getDate().toString() + ", ");
-                    writer.append(consultation.getTime().toString() + ", ");
-                    writer.append(consultation.getComment() + "\n");
-                }
-                writer.flush();
-                writer.close();
-                System.out.println("Consultation data exported as CSV file.");
-            } catch (IOException e) {
-                System.out.println("An error occurred while exporting the consultation data as a CSV file.");
-                e.printStackTrace();
-            }
-        } else if (format.equalsIgnoreCase("json")) {
-            // Export the data as a JSON file
+            return consultationRepository.save(updatedConsultation);
         } else {
-            System.out.println("Invalid format specified.");
+            throw new NoSuchElementException("Consultation with id " + id + " not found");
         }
     }
+
+
+public class ReminderService {
+
+
+    @Autowired
+    private Emailreminder emailService;
+
+    @Scheduled(cron = "0 0 9 * * *") // Runs every day at 9am
+    public void sendReminders() throws MessagingException {
+        List<Consultation> upcomingConsultations = consultationRepository.findUpcomingConsultations(new Date());
+        for (Consultation consultation : upcomingConsultations) {
+            // Code to send reminders to patients via email or text message
+            String email = consultation.getPatient().getEmailP();
+            String subject = "Reminder: Your consultation is coming up soon!";
+            String body = "Dear " + consultation.getPatient().getNomP() + ",\n\n"
+                    + "This is a reminder that your consultation with Dr. " + consultation.getDoctor().getNom()
+                    + " is scheduled for " + consultation.getDate() + ".\n\n"
+                    + "Please arrive at least 15 minutes prior to your scheduled appointment time.\n\n"
+                    + "Thank you for choosing our hospital.\n\n" + "Sincerely,\n\n" + "The Hospital Team";
+            emailService.sendEmailreminder(email, subject, body);
+        }
+    }
+}
 
 }
+
+
+
+
+
 
 

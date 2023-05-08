@@ -22,20 +22,20 @@ public class PatientService implements IPatientService{
 
     @Override
     public Patient ajouterPatient(Patient patient) {
-
-        System.out.println("patietn ffrom service"+patient);
-
-        if(!patientRepository.findAll().stream().filter(p->!p.getIsArchive())
-                .map(Patient::getChambre).collect(Collectors.toList()).contains(patient.getChambre())) {
-            patient.setIsArchive(false);
-            patient.setDateCreation(LocalDate.now());
-            patientRepository.save(patient);
-            return patient;
-        }
-        else {
-            return null;
-        }
-
+    	
+    	System.out.println("patietn ffrom service"+patient);
+    	
+    	if(!patientRepository.findAll().stream().filter(p->!p.getIsArchive())
+    			.map(Patient::getChambre).collect(Collectors.toList()).contains(patient.getChambre())) {
+    		patient.setIsArchive(false);
+    		patient.setDateCreation(LocalDate.now());
+    		patientRepository.save(patient);
+    		return patient;
+    	}
+    	else {
+    		return null;
+    	}
+    	
     }
      
     
@@ -50,7 +50,6 @@ public class PatientService implements IPatientService{
 
     @Override
     public Patient modifierPatient( Patient patient) {
-
         return patientRepository.save(patient);
     }
 

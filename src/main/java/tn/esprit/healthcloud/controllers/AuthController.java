@@ -1,7 +1,6 @@
 package tn.esprit.healthcloud.controllers;
 
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -17,32 +16,29 @@ import tn.esprit.healthcloud.config.CustomUserDetails;
 import tn.esprit.healthcloud.config.JwtUtils;
 
 import tn.esprit.healthcloud.config.request.LoginRequest;
-import tn.esprit.healthcloud.config.request.ResetRequest;
 import tn.esprit.healthcloud.config.response.JwtResponse;
 import tn.esprit.healthcloud.config.response.MessageResponse;
 import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.RoleRepository;
 import tn.esprit.healthcloud.repositories.UserRepository;
-import tn.esprit.healthcloud.services.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-@AllArgsConstructor
 
 public class AuthController {
-
+    @Autowired
     AuthenticationManager authenticationManager;
 
-
+    @Autowired
     UserRepository userRepository;
 
-
+    @Autowired
     RoleRepository roleRepository;
 
     @Autowired
@@ -50,7 +46,6 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
-    IUserService iUserService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) {
@@ -102,18 +97,7 @@ public class AuthController {
         user.setPassword(password);
         user.setStatut(true);
 
-        userRepository.save(user);
-        iUserService.addwithmail(user.getEmail());
-        return user;
-    }
-    @PostMapping("/updatepassword")
-    void updatePassword(@RequestBody ResetRequest resetRequest) {
-        iUserService.updatePassword(resetRequest.getEmailUser(),resetRequest.getNewPassword(),resetRequest.getConfirmPassword());
-    }
-
-    @PostMapping("/sendme")
-    public void forgotpass(@RequestBody ResetRequest resetRequest) {
-        iUserService.forgotpass(resetRequest.getEmailUser());
+        return userRepository.save(user);
     }
 }
 

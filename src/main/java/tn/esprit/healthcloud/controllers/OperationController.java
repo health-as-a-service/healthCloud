@@ -10,7 +10,6 @@ import tn.esprit.healthcloud.services.EmailService;
 import tn.esprit.healthcloud.services.ILogistiqueService;
 import tn.esprit.healthcloud.services.NotificationService;
 import tn.esprit.healthcloud.services.OperationInterface;
-import tn.esprit.healthcloud.entities.User;
 
 import java.util.*;
 
@@ -81,11 +80,5 @@ public class OperationController {
         return operationInterface.getSuccessRatesByType();
     }
 
-
-    @CrossOrigin(origins = "http://localhost:4200/")
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> updateOperation() {
-        return new ResponseEntity<>(operationInterface.getAllUsers(), HttpStatus.OK);
-    }
 
 }

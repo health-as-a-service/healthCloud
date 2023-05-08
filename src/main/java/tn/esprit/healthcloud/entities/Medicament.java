@@ -20,5 +20,7 @@ public class Medicament {
     private String description;
     private long stock;
     private float prix;
-
+    @ManyToOne
+    @JsonBackReference
+    private Pharmacie pharmacie;
 }

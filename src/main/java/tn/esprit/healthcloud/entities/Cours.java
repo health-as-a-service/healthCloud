@@ -1,11 +1,8 @@
 package tn.esprit.healthcloud.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,14 +12,13 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cours implements Serializable {
+public class Cours {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String course_name;
-    Date date;
-    Duration duration;
-    String description;
+    Date start;
+    Date end;
     @ManyToOne
     @JoinColumn(name = "doctor_id")
     private User doctor;
@@ -31,6 +27,8 @@ public class Cours implements Serializable {
     @JoinTable(name = "cours_stagiaires",
             joinColumns = @JoinColumn(name = "cours_id"),
             inverseJoinColumns = @JoinColumn(name = "stagiaires_id"))
+
     List<User> stagiaires;
+
 }
 

@@ -1,25 +1,24 @@
 package tn.esprit.healthcloud.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Data
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Consultation {
+public class Consultation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_consultation")
@@ -45,33 +44,24 @@ public class Consultation {
 
     @Column(name = "suivi")
     private String suivi;
-    /*
+
+
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Patient patient;
-     */
-/*
+
     @ManyToOne
-    private Medecin medecin; */
+    private User doctor;
+
 
     @OneToOne
-    @JsonManagedReference
-    @JoinColumn(name="facture_id", nullable=false)
+    @JoinColumn(name="facture_id")
     private Facture facture;
 
     @ManyToOne
-    @JsonManagedReference
-    @JoinColumn(name="assurance_id", nullable=false)
+    @JoinColumn(name="assurance_id")
     private Assurance assurance;
 
 
-
-
-   /*
-   @OneToOne
-    @JoinColumn(name = "prescription_id")
-    private Prescription prescription;
-    */
     private String comment;
     public String getComment() {
         return comment;

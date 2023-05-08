@@ -13,9 +13,4 @@ public interface IUserService {
     void supprimer (long id);
     void block (long id);
     void deblock (long id);
-    void updatePassword(String email, String newPassword,String confirmPassword);
-    void forgotpass(String emailuser);
-    public void addwithmail(String emailuser);
-    public List<String> getMailsbyRoles();
-    public List<User> getUsersbyRoles(int r);
 }

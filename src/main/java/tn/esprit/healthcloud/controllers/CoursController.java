@@ -1,17 +1,16 @@
 package tn.esprit.healthcloud.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.healthcloud.entities.Cours;
-import tn.esprit.healthcloud.entities.DayOff;
-import tn.esprit.healthcloud.repositories.CoursRepository;
+import tn.esprit.healthcloud.entities.User;
 import tn.esprit.healthcloud.repositories.UserRepository;
 import tn.esprit.healthcloud.services.CoursService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cours")
@@ -21,19 +20,19 @@ public class CoursController {
     private CoursService coursService;
 
     private UserRepository userRepository;
-    private final CoursRepository coursRepository;
+
 
 
     @GetMapping("")
     public ResponseEntity<List<Cours>> getCours() {
         List<Cours> coursList = coursService.getAllCours();
-        return new ResponseEntity<>(coursList, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.FOUND).body(coursList);
     }
 
     @PostMapping("")
     public ResponseEntity<Cours> saveCours(@RequestBody Cours cours) {
         Cours savedCours = coursService.saveCours(cours);
-        return new ResponseEntity<>(savedCours, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCours);
     }
 
     @GetMapping("/{id}")
@@ -41,19 +40,6 @@ public class CoursController {
         Cours cours = coursService.getCoursById(id);
         if (cours != null) {
             return ResponseEntity.ok(cours);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Cours> updateDayOff(@PathVariable int id, @RequestBody Cours cour) {
-        Optional<Cours> optionalCours = (coursRepository.findById(id));
-        if (optionalCours.isPresent()) {
-            cour.setId(id);
-            Cours updatedCours = coursRepository.save(cour);
-            return ResponseEntity.ok(updatedCours);
         } else {
             return ResponseEntity.notFound().build();
         }
