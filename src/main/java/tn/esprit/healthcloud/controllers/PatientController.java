@@ -146,9 +146,8 @@ public class PatientController {
     @PutMapping(value="/patient/{dateNaissance}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @CrossOrigin
     public  ResponseEntity<Patient> modifierPatient(
-
             @RequestPart("patient") String patient,
-            @RequestParam(name = "patientfile") MultipartFile patientFile,
+          @Nullable  @RequestParam(name = "patientfile") MultipartFile patientFile,
             @PathVariable("dateNaissance") String dateNaissance
     )  {
 
@@ -163,6 +162,7 @@ public class PatientController {
         }
 
 
+    if(patientFile!=null){
 
 
         Image patientFiletosend = new Image();
@@ -178,6 +178,9 @@ public class PatientController {
         }
         patientJson.setImage(patientFiletosend);
 
+
+
+    }
 
 
 

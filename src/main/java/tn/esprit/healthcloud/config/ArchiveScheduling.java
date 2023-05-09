@@ -68,7 +68,7 @@ public class ArchiveScheduling {
 			        .filter(patient -> patient.getIsArchive())
 			        .filter(patient -> {
 			        	if(patient.getIsArchive()) {
-			        		LocalDateTime deleteFromArchiveDate = patient.getDateArchivage().plusMinutes(3);
+			        		LocalDateTime deleteFromArchiveDate = patient.getDateArchivage().plusMinutes(30 );
 				            LocalDateTime now = LocalDateTime.now();
 				            return deleteFromArchiveDate.truncatedTo(ChronoUnit.MINUTES)
 				                    .isEqual(now.truncatedTo(ChronoUnit.MINUTES));

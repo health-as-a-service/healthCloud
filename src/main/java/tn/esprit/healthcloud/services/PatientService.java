@@ -50,6 +50,11 @@ public class PatientService implements IPatientService{
 
     @Override
     public Patient modifierPatient( Patient patient) {
+        patient.setIsArchive(patientRepository.findById(patient.getIdP()).get().getIsArchive());
+        patient.setDateArchivage(patientRepository.findById(patient.getIdP()).get().getDateArchivage());
+        patient.setDateCreation(patientRepository.findById(patient.getIdP()).get().getDateCreation());
+        patient.getDossierMedical().setDateCreation(patientRepository.findById(patient.getIdP()).get().getDossierMedical().getDateCreation());
+        patient.getDossierMedical().setDerniereMaj(LocalDate.now());
 
         return patientRepository.save(patient);
     }
