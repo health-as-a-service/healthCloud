@@ -1,12 +1,12 @@
 package tn.esprit.healthcloud.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Getter
@@ -20,9 +20,11 @@ public class Sample {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private int Id;
     private String description;
+    @Enumerated(EnumType.STRING)
     private testType testType;
     private String status;
     private String resultat;
     private Date testDate;
 
+    private String email;
 }

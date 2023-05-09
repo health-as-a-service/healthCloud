@@ -1,25 +1,20 @@
 package tn.esprit.healthcloud.entities;
-
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class Pharmacie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private int Id;
-    private String nom;
-    private String location;
-    private String email;
-    private String telephone;
-    private String HeuresOuverts;
+    private int SellsCount;
+    private float SellsTotal;
 
 
 }
