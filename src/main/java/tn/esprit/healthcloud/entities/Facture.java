@@ -1,18 +1,17 @@
 package tn.esprit.healthcloud.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
-@Data
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Facture {
+public class Facture implements Serializable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -21,9 +20,8 @@ public class Facture {
 
         private String typePaiement;
 
-        @OneToOne (mappedBy = "facture")
-        @JsonBackReference
+        @OneToOne(mappedBy = "facture", cascade = CascadeType.ALL)
+
         private Consultation consultations;
 
-    }
-
+}
