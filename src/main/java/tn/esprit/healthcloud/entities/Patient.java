@@ -18,6 +18,8 @@ public class Patient implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idP;
     String nomP;
+    String EmailP;
+
     String prenomP;
     String sexe;
     LocalDate dateNaissanceP;

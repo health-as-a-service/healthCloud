@@ -10,18 +10,14 @@ public interface IConsultationService {
         Consultation createConsultation(Consultation consultation);
         Consultation getConsultationById(Long id);
         List<Consultation> getAllConsultations();
-        void addAntecedentToConsultation(Long consultationId, String antecedent);
-        void addFactureToConsultation(Long consultationId, Facture facture);
-        void addAssuranceToConsultation(Long consultationId, Assurance assurance);
-        void sendReminderEmails();
+
+        Consultation updateConsultation(Long consultationId, Consultation consultation);
 
 
-        List<Consultation> getConsultationsByDateRange(Date startDate, Date endDate);
-        void exportConsultationData(String format);
-      //  Prescription createPrescription(Prescription prescription);
-
-      //  List<PatientConsultation> getPatientConsultationHistory(Long patientId);
 }
+
+
+
 
 
 
