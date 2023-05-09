@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>esprit.etudiant.tn</groupId>
-    <artifactId>healthCloud</artifactId>
+    <artifactId>healthcloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>healthCloud</name>
     <description>healthCloud</description>
@@ -295,6 +295,11 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
             <version>3.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.6.9</version>
         </dependency>
     </dependencies>
 

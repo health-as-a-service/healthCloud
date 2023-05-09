@@ -1,6 +1,8 @@
 package tn.esprit.healthcloud.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,7 +25,6 @@ public class Sample {
     private String status;
     private String resultat;
     private Date testDate;
-    @ManyToOne
-    @JsonBackReference
-    private Laboratoire labo;
+
+    private String email;
 }

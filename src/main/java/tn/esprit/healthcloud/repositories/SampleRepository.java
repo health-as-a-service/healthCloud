@@ -6,4 +6,5 @@ import tn.esprit.healthcloud.entities.Sample;
 
 @Repository
 public interface SampleRepository extends JpaRepository<Sample,Integer> {
+
 }

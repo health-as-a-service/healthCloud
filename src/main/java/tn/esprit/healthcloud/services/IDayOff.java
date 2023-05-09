@@ -17,6 +17,9 @@ public interface IDayOff {
     void deleteDayOff(int id);
 
     List<DayOff> getDayOffsBetweenDates(LocalDate startDate, LocalDate endDate);
+    public DayOff request(DayOff dayOff);
+
+    List<DayOff> getDayOffsByUser(long id);
 
     List<DayOff> getPendingDayOffRequests();
 

@@ -20,4 +20,6 @@ public interface MedicamentRepository extends JpaRepository<Medicament,Integer> 
     @Query("UPDATE Medicament m SET m.stock = :stock WHERE m.Id = :id")
     void updateStock(@Param("id") int id, @Param("stock") long stock);
     List<Medicament> findByStockLessThan(long stock);
+    @Query("SELECT COUNT(DISTINCT m.nom) FROM Medicament m")
+    int countByNom();
 }

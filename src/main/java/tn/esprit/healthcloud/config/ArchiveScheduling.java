@@ -39,9 +39,6 @@ public class ArchiveScheduling {
 		    	}else {
 		    		return false;
 		    	}
-		        
-		    	
-		        
 		    })
 		    .collect(Collectors.toList());
 	

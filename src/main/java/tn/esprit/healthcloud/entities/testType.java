@@ -1,5 +1,8 @@
 package tn.esprit.healthcloud.entities;
 
+import javax.persistence.Table;
+
+
 public enum testType {
     Tests_de_chimie_clinique, Tests_de_microbiologie, Tests_dhématologie, Tests_dimmunologie, Tests_génétiques, Tests_dhistologie, Tests_de_sérologie, Tests_de_toxicologie, Tests_dendocrinologie,
     Tests_de_virologie,
